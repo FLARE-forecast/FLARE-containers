@@ -103,6 +103,9 @@ fi
 ##############################################################################
 
 CONTAINER_NAME=${1}
+CONTAINER_VERSION=$(yq r ${DIRECTORY_CONTAINER_SHARED}/${CONTAINER_NAME}/${CONFIG_FILE} container.version)
+echo "Welcome to ${CONTAINER_NAME} version ${CONTAINER_VERSION}!"
+
 LAKES_DIRECTORY=$(yq r ${DIRECTORY_CONTAINER_SHARED}/${CONTAINER_NAME}/${CONFIG_FILE} lakes_directory)
 LAKE_NAME_CODE=$(yq r ${DIRECTORY_CONTAINER_SHARED}/${CONTAINER_NAME}/${CONFIG_FILE} lake_name_code)
 RSCRIPT="glm/03_generate_forecast.R"

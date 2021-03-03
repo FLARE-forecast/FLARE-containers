@@ -165,6 +165,8 @@ function push_workdir() {
 }
 
 CONTAINER_NAME=${1}
+CONTAINER_VERSION=$(yq r ${DIRECTORY_CONTAINER_SHARED}/${CONTAINER_NAME}/${CONFIG_FILE} container.version)
+echo "Welcome to ${CONTAINER_NAME} version ${CONTAINER_VERSION}!"
 
 PRE_RUN_PULL_WORKDIR=$(yq r ${DIRECTORY_CONTAINER_SHARED}/${CONTAINER_NAME}/${CONFIG_FILE} container.working-directory.pre-run-pull)
 POST_RUN_PUSH_WORKDIR=$(yq r ${DIRECTORY_CONTAINER_SHARED}/${CONTAINER_NAME}/${CONFIG_FILE} container.working-directory.post-run-push)
