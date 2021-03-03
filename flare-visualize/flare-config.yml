@@ -10,7 +10,7 @@ git:
 ## Container Settings
 container:
   name: flare-visualize
-  version: 21.01.02
+  version: 21.01.2
   working-directory:
     pre-run-pull: FALSE
     post-run-push: FALSE
