@@ -18,6 +18,7 @@ DIRECTORY_HOST="/opt/flare"
 DIRECTORY_HOST_SHARED="/opt/flare/shared"
 
 CONTAINER_NAME=${1}
+CONTAINER_VERSION=${2}
 CONFIG_URL=https://raw.githubusercontent.com/FLARE-forecast/FLARE-containers/${CONTAINER_VERSION}/${CONTAINER_NAME}/${CONFIG}
 HOST_SCRIPT_URL=https://raw.githubusercontent.com/FLARE-forecast/FLARE-containers/${CONTAINER_VERSION}/commons/${HOST_SCRIPT}
 COMMONS_SCRIPT_URL=https://raw.githubusercontent.com/FLARE-forecast/FLARE-containers/${CONTAINER_VERSION}/commons/${COMMONS_SCRIPT}
