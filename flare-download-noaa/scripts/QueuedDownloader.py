@@ -10,18 +10,15 @@ import logging.handlers as lh
 import pycurl
 import certifi
 from io import BytesIO
+import yaml
 
-config = {
-    "LogDirectory": "./",
-    "LogFileName": "noaa_downloads.log",
-    "MaxLogFileBytes": 1<<20,
-    "BackupCount": 5,
-    "MaxAttempts": 7
-}
+container_name = str(sys.argv[1]).split("/")[-3]
+with open('/root/flare/shared/'+ container_name +'/flare-config.yml', 'r') as f:
+    config = yaml.load(f, Loader=yaml.FullLoader)
 
 def SetupLogging():
     logger = logging.getLogger("Console & File Logger")
-    logger.setLevel(logging.DEBUG)
+    logger.setLevel(getattr(logging,config["LoggerMode"]))
 
     #Console Logger
     console_handler = logging.StreamHandler()
@@ -41,7 +38,7 @@ def SetupLogging():
 
     #File Logger
     # Creates rotating filehandler
-    file_handler = lh.RotatingFileHandler(filename=fqname, maxBytes=config["MaxLogFileBytes"],
+    file_handler = lh.RotatingFileHandler(filename=fqname, maxBytes=eval(config["MaxLogFileBytes"]),
                                         backupCount=config["BackupCount"])
     file_log_formatter = logging.Formatter(
         "[%(asctime)s.%(msecs)03d] %(levelname)s:%(message)s", datefmt="%Y%m%d %H:%M:%S")
@@ -209,12 +206,12 @@ class QueuedDownloader():
             return 0
         else:
             self._logger.info("%i items failed to download\n%s", len(self._failed), str(self._failed))
-            return 1
+            return 0
 
 def main():
     if len(sys.argv) != 5:
         print("Usage: python3 " + sys.argv[0] + " base_directory date lat lon\n")
-        print("Example: python3 " + sys.argv[0] + " /opt/flare/shared/flare-download-noaa 20210223 255 160\n")
+        print("Example: python3 " + sys.argv[0] + " /opt/flare 20210223 255 160\n")
         return
 
     lat = '[' + str(sys.argv[3]) + ']'

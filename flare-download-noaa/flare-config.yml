@@ -1,0 +1,35 @@
+### Configuration File for CIBR-FLARE Project
+## General Settings
+git:
+  remote:
+    server: github.com
+    branch: master
+    ssh-key-private:
+    user-name:
+    user-email:
+## Container Settings
+container:
+  name: flare-download-noaa
+  version: latest
+  working-directory:
+    pre-run-pull: FALSE
+    post-run-push: FALSE
+    git:
+      remote:
+        server: 192.168.20.20
+        port:
+        repository: FLARE-forecast/test-data
+        branch: master
+        directory:
+## Parameters for flare-container.sh
+number-of-days: 4
+noaa_model: NOAAGEFS_6hr
+lake_name_code: fcre
+lake_name: Falling Creek Reservoir
+## Parameters for QueuedDownloader.py
+LogDirectory: "./"
+LogFileName: "noaa_downloads.log"
+MaxLogFileBytes: 1<<20
+BackupCount: 5
+MaxAttempts: 7
+LoggerMode: INFO
