@@ -51,7 +51,7 @@ LOGGER = SetupLogging()
 class ReqURLGenerator():
     '''
     URLs have this format
-    https://nomads.ncep.noaa.gov:443/dods/gefs/gefs20201207/gefs_pgrb2ap5_all_00z.ascii?tmp2m[0:30][0:64][255][560]
+    https://nomads.ncep.noaa.gov:443/dods/gefs/gefs20201207/gefs_pgrb2ap5_all_00z.ascii?tmp2m[0:30][0:64][255][160]
     $URLBASE $DATE $QUERYPREFIX $TIME $QUERYPOSTFIX $VARIABLE $RANGE1 $RANGE2 $LAT $LON
     URLBASE: https://nomads.ncep.noaa.gov:443/dods/gefs/gefs
     DATE: 20201207
