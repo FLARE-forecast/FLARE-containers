@@ -22,4 +22,4 @@ RUN apt-get -yq update && \
 RUN mkdir -p /root/flare/
 COPY flare-container.sh /root/flare/
 RUN wget https://raw.githubusercontent.com/FLARE-forecast/FLARE-containers/master/commons/commons.sh -O /root/flare/commons.sh
-RUN chmod +x /usr/bin/yq /root/flare/flare-container.sh
+RUN chmod +x /usr/bin/yq /usr/bin/mc /root/flare/flare-container.sh
