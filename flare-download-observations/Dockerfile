@@ -29,7 +29,9 @@ ENV PATH="/root/.nvm/versions/node/v${NODE_VERSION}/bin/:${PATH}"
 RUN node --version
 RUN npm --version
 RUN npm install && \
-    npm install shelljs
+    npm install shelljs \
+	nodemon \
+	express
 
 # Copy Files to Container
 RUN mkdir -p /root/flare/
