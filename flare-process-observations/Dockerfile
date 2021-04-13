@@ -14,8 +14,8 @@ RUN apt-get -yq update && \
 	ssh \
 	tzdata \
 	vim \
-	libnetcdf-dev \
-	curl && \
+	curl \
+	libnetcdf-dev && \
 	R -e "install.packages(c('yaml', 'remotes', 'imputeTS', 'rMR'), repos = 'https://cloud.r-project.org')" && \
 	R -e "remotes::install_github('FLARE-forecast/noaaGEFSpoint@fc08f6272da5b7bdeec3b764050e490482d27240')" && \
         wget -O /usr/bin/yq https://github.com/mikefarah/yq/releases/download/3.4.1/yq_linux_amd64 && \

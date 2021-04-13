@@ -13,7 +13,7 @@ RUN apt-get -yq update && \
 	libssl-dev \
 	ssh \
 	tzdata \
-	vim  \
+	vim \
 	curl && \
 	wget -O /usr/bin/yq https://github.com/mikefarah/yq/releases/download/3.4.1/yq_linux_amd64 && \
 	wget -O /usr/bin/mc https://dl.min.io/client/mc/release/linux-amd64/mc

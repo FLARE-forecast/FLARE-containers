@@ -13,7 +13,8 @@ RUN apt-get -yq update && \
 	libssl-dev \
 	ssh \
 	tzdata \
-	vim  \
+	vim \
+	curl \
 	libnetcdf-dev \
 	libjq-dev \
 	libudunits2-dev \
@@ -23,8 +24,8 @@ RUN apt-get -yq update && \
 	R -e "remotes::install_github('FLARE-forecast/noaaGEFSpoint@fc08f6272da5b7bdeec3b764050e490482d27240')" && \
 	R -e "remotes::install_github('eco4cast/EFIstandards@bf5aff16c04052fe50c14f61eace358f9550925d')" && \
 	R -e "remotes::install_github('FLARE-forecast/flare@eac9c0a5c6201495d1978ab3415f2fc51d14d34a')" && \
-	wget -O /usr/bin/yq https://github.com/mikefarah/yq/releases/download/3.4.1/yq_linux_amd64
-
+	wget -O /usr/bin/yq https://github.com/mikefarah/yq/releases/download/3.4.1/yq_linux_amd64 && \
+	wget -O /usr/bin/mc https://dl.min.io/client/mc/release/linux-amd64/mc
 # Install Node
 ENV NODE_VERSION=14.16.1 
 RUN curl -o- https://raw.githubusercontent.com/creationix/nvm/v0.38.0/install.sh | bash
