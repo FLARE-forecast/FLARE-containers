@@ -36,3 +36,9 @@ RUN mkdir -p /root/flare/
 COPY flare-container.sh /root/flare/
 RUN wget https://raw.githubusercontent.com/FLARE-forecast/FLARE-containers/master/commons/commons.sh -O /root/flare/commons.sh
 RUN chmod +x /usr/bin/yq /usr/bin/mc /root/flare/flare-container.sh
+
+# Start OpenWhisk Service
+WORKDIR /code
+COPY . /code
+EXPOSE 8080
+CMD ["npm", "start"]
