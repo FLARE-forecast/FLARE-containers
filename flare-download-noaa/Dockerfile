@@ -28,3 +28,11 @@ COPY flare-container.sh /root/flare/
 RUN wget -O /root/flare/commons.sh https://raw.githubusercontent.com/Yun-Jung/FLARE-containers/master/commons/commons.sh
 RUN chmod +x /usr/bin/yq /usr/bin/mc /root/flare/flare-container.sh
 COPY /scripts/QueuedDownloader.py /root/flare/scripts
+
+# Start OpenWhisk Service
+WORKDIR /code
+COPY . /code
+EXPOSE 8080
+CMD ["npm", "start"]
+
+
