@@ -1,4 +1,4 @@
-FROM rocker/tidyverse:4.0.3
+FROM rocker/tidyverse:4.0.4
 
 # Set Environment Variables
 ENV TZ=America/New_York
@@ -6,26 +6,26 @@ ARG DEBIAN_FRONTEND=noninteractive
 
 # Install Dependencies
 RUN apt-get -yq update && \
-	apt-get -yqq install wget \
-	git \
-	libxml2-dev \
-	libcurl4-openssl-dev \
-	libssl-dev \
-	ssh \
-	tzdata \
-	vim \
-	curl \
-	libnetcdf-dev \
-	libjq-dev \
-	libudunits2-dev \
-	libnode-dev \
-	libgd-dev && \
-	R -e "install.packages(c('yaml', 'remotes', 'imputeTS', 'rMR', 'stinepack'), repos = 'https://cloud.r-project.org')" && \
-	R -e "remotes::install_github('FLARE-forecast/noaaGEFSpoint@fc08f6272da5b7bdeec3b764050e490482d27240')" && \
-	R -e "remotes::install_github('eco4cast/EFIstandards@bf5aff16c04052fe50c14f61eace358f9550925d')" && \
-	R -e "remotes::install_github('FLARE-forecast/flare@368da65c3df396570c71b8072fe3fcb5ab0ea9fa')" && \
-	wget -O /usr/bin/yq https://github.com/mikefarah/yq/releases/download/3.4.1/yq_linux_amd64 && \
-	wget -O /usr/bin/mc https://dl.min.io/client/mc/release/linux-amd64/mc
+    apt-get -yqq install wget \
+        git \
+        libxml2-dev \
+        libcurl4-openssl-dev \
+        libssl-dev \
+        ssh \
+        tzdata \
+        vim \
+        curl \
+        libnetcdf-dev \
+        libjq-dev \
+        libudunits2-dev \
+        libnode-dev \
+        libgd-dev && \
+    R -e "install.packages(c('yaml', 'remotes', 'imputeTS', 'rMR', 'stinepack'), repos = 'https://cloud.r-project.org')" && \
+    R -e "remotes::install_github('FLARE-forecast/noaaGEFSpoint@fc08f6272da5b7bdeec3b764050e490482d27240')" && \
+    R -e "remotes::install_github('eco4cast/EFIstandards@085bcd5e39b6ffb0ef94ce1fa692ed5810ea6ae3')" && \
+    R -e "remotes::install_github('FLARE-forecast/flare@b464511caf2574f410a6d3b62948412ebd07e9d0')" && \
+    wget -O /usr/bin/yq https://github.com/mikefarah/yq/releases/download/3.4.1/yq_linux_amd64 && \
+    wget -O /usr/bin/mc https://dl.min.io/client/mc/release/linux-amd64/mc
 # Install Node
 ENV NODE_VERSION=14.16.1 
 RUN curl -o- https://raw.githubusercontent.com/creationix/nvm/v0.38.0/install.sh | bash
@@ -42,7 +42,7 @@ RUN npm install && \
 # Copy Files to Container
 RUN mkdir -p /root/flare/flare_lake_examples/
 COPY flare-container.sh /root/flare/
-RUN wget https://raw.githubusercontent.com/FLARE-forecast/FLARE-containers/master/commons/commons.sh -O /root/flare/commons.sh
+RUN wget -O /root/flare/commons.sh https://raw.githubusercontent.com/FLARE-forecast/FLARE-containers/21.01.4/commons/commons.sh
 RUN chmod +x /usr/bin/yq /usr/bin/mc /root/flare/flare-container.sh
 ADD flare_lake_examples/ /root/flare/flare_lake_examples/
 
@@ -51,3 +51,4 @@ WORKDIR /code
 COPY . /code
 EXPOSE 8080
 CMD ["npm", "start"]
+

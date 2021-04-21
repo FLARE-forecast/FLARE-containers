@@ -9,8 +9,8 @@ git:
     user-email:
 ## Container Settings
 container:
-  name: flare-process-observations
-  version: 21.01.2
+  name: openwhisk-flare-process-observations
+  version: 21.01.3
   working-directory:
     pre-run-pull: FALSE
     post-run-push: FALSE

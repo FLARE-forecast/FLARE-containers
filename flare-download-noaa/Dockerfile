@@ -6,8 +6,8 @@ ARG DEBIAN_FRONTEND=noninteractive
 
 # Install Dependencies
 RUN wget -O /usr/bin/yq https://github.com/mikefarah/yq/releases/download/3.4.1/yq_linux_amd64 && \
-	wget -O /usr/bin/mc https://dl.min.io/client/mc/release/linux-amd64/mc && \
-	pip3 install pycurl certifi PyYAML
+    wget -O /usr/bin/mc https://dl.min.io/client/mc/release/linux-amd64/mc && \
+    pip3 install pycurl certifi PyYAML
 
 # Install Node
 ENV NODE_VERSION=14.16.1
@@ -25,7 +25,7 @@ RUN npm install && \
 # Copy Files to Container
 RUN mkdir -p /root/flare/scripts/
 COPY flare-container.sh /root/flare/
-RUN wget -O /root/flare/commons.sh https://raw.githubusercontent.com/Yun-Jung/FLARE-containers/master/commons/commons.sh
+RUN wget -O /root/flare/commons.sh https://raw.githubusercontent.com/FLARE-forecast/FLARE-containers/21.01.4/commons/commons.sh 
 RUN chmod +x /usr/bin/yq /usr/bin/mc /root/flare/flare-container.sh
 COPY /scripts/QueuedDownloader.py /root/flare/scripts
 
@@ -34,5 +34,4 @@ WORKDIR /code
 COPY . /code
 EXPOSE 8080
 CMD ["npm", "start"]
-
 
