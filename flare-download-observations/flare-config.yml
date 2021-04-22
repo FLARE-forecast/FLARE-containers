@@ -10,7 +10,7 @@ git:
 ## Container Settings
 container:
   name: flare-download-observations
-  version: 21.01.2
+  version: latest
   working-directory:
     pre-run-pull: FALSE
     post-run-push: FALSE
@@ -59,3 +59,4 @@ realtime_inflow_data_location:
       repository: FLARE-forecast/FCRE-data
       branch: fcre-weir-data
       directory:
+

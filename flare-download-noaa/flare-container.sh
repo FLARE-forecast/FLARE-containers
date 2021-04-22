@@ -102,7 +102,7 @@ fi
 ### User-defined and Runtime
 ##############################################################################
 
-SCRIPT="QueuedDownloader.py"
+SCRIPT="qdownloader.py"
 CONTAINER_NAME=${1}
 GIT_REMOTE_USERNAME=$(yq r ${DIRECTORY_CONTAINER_SHARED}/${CONTAINER_NAME}/${CONFIG_FILE} git.remote.user-name)
 GIT_REMOTE_USEREMAIL=$(yq r ${DIRECTORY_CONTAINER_SHARED}/${CONTAINER_NAME}/${CONFIG_FILE} git.remote.user-email)

@@ -33,3 +33,4 @@ MaxLogFileBytes: 1<<20
 BackupCount: 5
 MaxAttempts: 7
 LoggerMode: INFO
+

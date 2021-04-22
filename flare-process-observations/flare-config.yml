@@ -9,8 +9,8 @@ git:
     user-email:
 ## Container Settings
 container:
-  name: openwhisk-flare-process-observations
-  version: 21.01.3
+  name: flare-process-observations
+  version: latest
   working-directory:
     pre-run-pull: FALSE
     post-run-push: FALSE
@@ -164,3 +164,4 @@ measurement_methods:
         - exo_sensor
     chla:
         - exo_sensor
+

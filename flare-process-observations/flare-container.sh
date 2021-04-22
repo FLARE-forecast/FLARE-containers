@@ -102,7 +102,7 @@ fi
 ### User-defined and Runtime
 ##############################################################################
 
-RSCRIPT="02_process_observations.R"
+SCRIPT="02_process_observations.R"
 CONTAINER_NAME=${1}
 CONTAINER_VERSION=$(yq r ${DIRECTORY_CONTAINER_SHARED}/${CONTAINER_NAME}/${CONFIG_FILE} container.version)
 echo "Welcome to ${CONTAINER_NAME} version ${CONTAINER_VERSION}!"
@@ -130,4 +130,4 @@ mkdir -p ${QAQC_DATA_LOCATION}
 
 # Run R Script
 # Pass `${CONTAINER_NAME}` Argument to the R Script
-Rscript ${DIRECTORY_CONTAINER}/${LAKES_DIRECTORY}/${LAKE_NAME_CODE}/${RSCRIPT} ${CONTAINER_NAME}
+Rscript ${DIRECTORY_CONTAINER}/${LAKES_DIRECTORY}/${LAKE_NAME_CODE}/${SCRIPT} ${CONTAINER_NAME}

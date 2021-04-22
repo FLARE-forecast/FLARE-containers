@@ -102,7 +102,7 @@ fi
 ### User-defined and Runtime
 ##############################################################################
 
-RSCRIPT="04_visualize.R"
+SCRIPT="04_visualize.R"
 CONTAINER_NAME=${1}
 CONTAINER_VERSION=$(yq r ${DIRECTORY_CONTAINER_SHARED}/${CONTAINER_NAME}/${CONFIG_FILE} container.version)
 echo "Welcome to ${CONTAINER_NAME} version ${CONTAINER_VERSION}!"
@@ -126,4 +126,4 @@ git config --global user.email ${GIT_REMOTE_USEREMAIL}
 
 # Run R Script
 # Pass `${DIRECTORY_CONTAINER_SHARED}/${CONTAINER_NAME}` Argument to the R Script
-Rscript ${DIRECTORY_CONTAINER}/${LAKES_DIRECTORY}/${LAKE_NAME_CODE}/${RSCRIPT} ${CONTAINER_NAME}
+Rscript ${DIRECTORY_CONTAINER}/${LAKES_DIRECTORY}/${LAKE_NAME_CODE}/${SCRIPT} ${CONTAINER_NAME}

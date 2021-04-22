@@ -10,7 +10,7 @@ git:
 ## Container Settings
 container:
   name: flare-visualize
-  version: 21.01.2
+  version: latest
   working-directory:
     pre-run-pull: FALSE
     post-run-push: FALSE
@@ -31,3 +31,4 @@ run_config: /root/flare/shared/flare-generate-forecast/forecast/configuration_fi
 ## Lake Information
 lake_name_code: fcre
 lake_name: Falling Creek Reservoir
+
