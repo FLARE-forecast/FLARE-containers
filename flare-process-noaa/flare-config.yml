@@ -10,7 +10,7 @@ git:
 ## Container Settings
 container:
   name: flare-process-noaa
-  version: 21.01.2
+  version: latest
   working-directory:
     pre-run-pull: FALSE
     post-run-push: FALSE
@@ -36,3 +36,4 @@ lake_name_code: fcre
 lake_name: Falling Creek Reservoir
 lake_latitude: 37.307 # Degrees North
 lake_longitude: 79.837 # Degrees West
+

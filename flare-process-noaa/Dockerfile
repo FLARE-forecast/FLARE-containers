@@ -24,11 +24,11 @@ RUN npm install && \
         express
 
 # Copy Files to Container
-RUN mkdir -p /root/flare/rscripts/
+RUN mkdir -p /root/flare/scripts/
 COPY flare-container.sh /root/flare/
 RUN wget -O /root/flare/commons.sh https://raw.githubusercontent.com/FLARE-forecast/FLARE-containers/21.01.4/commons/commons.sh
 RUN chmod +x /usr/bin/yq /usr/bin/mc /root/flare/flare-container.sh
-COPY rscripts/launch_download_downscale.R /root/flare/rscripts/
+COPY scripts/launch_download_downscale.R /root/flare/scripts/
 
 # Start OpenWhisk Service
 WORKDIR /code
