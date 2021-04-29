@@ -4,13 +4,24 @@ APIHOST=$1
 AUTH=$2
 CONTAINER_NAME=$3
 LAKE=$4
+NEXR_TRIGGER_INIT=$5
 
-
+# Generate next trigger payload based on given payload
+echo $NEXR_TRIGGER_INIT
+echo $NEXR_TRIGGER_INIT > /root/next_payload.json
 NEXR_TRIGGER=$(yq r ${DIRECTORY_CONTAINER_SHARED}/${CONTAINER_NAME}/${CONFIG_FILE} openwhisk.next-trigger.name)
-NEXR_TRIGGER_PAYLOAD=$(yq r ${DIRECTORY_CONTAINER_SHARED}/${CONTAINER_NAME}/${CONFIG_FILE} openwhisk.next-trigger.payload)
+NEXR_TRIGGER_CONTAINER=$(yq r ${DIRECTORY_CONTAINER_SHARED}/${CONTAINER_NAME}/${CONFIG_FILE} openwhisk.next-trigger.container_name)
+if [ -z "$NEXR_TRIGGER_CONTAINER"]
+then
+    payload="$(jq --arg key container_name --arg pass "$NEXR_TRIGGER_CONTAINER" '.[$key] = $pass' /root/next_payload.json )" && echo "${payload}" > /root/next_payload.json
+    if [ $NEXR_TRIGGER_CONTAINER == "compound-trigger" ]
+    then
+        NEXR_TRIGGER_TYPE=$(yq r ${DIRECTORY_CONTAINER_SHARED}/${CONTAINER_NAME}/${CONFIG_FILE} openwhisk.next-trigger.type)
+        payload="$(jq --arg key type --arg pass "$NEXR_TRIGGER_TYPE" '.[$key] = $pass' /root/next_payload.json )" && echo "${payload}" > /root/next_payload.json
+    fi
+fi
 
-# apt-get update && apt-get install curl -y
-
+# Start next trigger
 if [ $CONTAINER_NAME == "flare-download-noaa" ]
 then
     NUMBER_OF_DAYS=$(yq r ${DIRECTORY_CONTAINER_SHARED}/${CONTAINER_NAME}/${CONFIG_FILE} number-of-days)
@@ -72,15 +83,12 @@ then
             echo "Trigger flare-process-noaa"
             #Trigger flare-process-noaa
             echo "Triggered" 2>&1 | tee -a ${FOLDER}/${TODAY_DATE}.trg
-            curl -u ${AUTH} https://${APIHOST}/api/v1/namespaces/_/triggers/$NEXR_TRIGGER -X POST -H "Content-Type: application/json" -d "$NEXR_TRIGGER_PAYLOAD"
+            curl -u ${AUTH} https://${APIHOST}/api/v1/namespaces/_/triggers/$NEXR_TRIGGER -X POST -H "Content-Type: application/json" -d "$payload"
         fi
     fi
 
 else
    curl -u $AUTH https://$APIHOST/api/v1/namespaces/_/triggers/$NEXR_TRIGGER \
     -X POST -H "Content-Type: application/json" \
-    -d "$NEXR_TRIGGER_PAYLOAD"
+    -d "$payload"
 fi
-
-
-
