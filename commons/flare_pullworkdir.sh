@@ -7,8 +7,8 @@ error_exit()
 	exit 1
 }
 
-DIRECTORY_HOST="/opt/flare"
-DIRECTORY_HOST_SHARED="/opt/flare/shared"
+DIRECTORY_HOST="~/flare"
+DIRECTORY_HOST_SHARED="~/flare/shared"
 DIRECTORY_CONTAINER_SHARED="/root/flare/shared"
 CONFIG_FILE="flare-config.yml"
 
@@ -45,9 +45,9 @@ do
 	for daysback in `seq 0 $Ndays_steps`
 	do
     	scandate=$(date -d "$current_date - $daysback days" +%Y%m%d)
-		if (downloaded==false) 
+		if (downloaded==false)
 		then
-			mc cp flare/${LAKE}/$FLARE_CONTAINER_NAME/${LAKE}_${scandate}_${FLARE_CONTAINER_NAME}_workingdirectory.tar.gz ${DIRECTORY_HOST_SHARED}/ 
+			mc cp flare/${LAKE}/$FLARE_CONTAINER_NAME/${LAKE}_${scandate}_${FLARE_CONTAINER_NAME}_workingdirectory.tar.gz ${DIRECTORY_HOST_SHARED}/
 			if [ "$?" -eq "0" ]; # copy work dir success
 			then
 				echo "OK"
