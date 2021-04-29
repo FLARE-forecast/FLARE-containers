@@ -59,4 +59,11 @@ realtime_inflow_data_location:
       repository: FLARE-forecast/FCRE-data
       branch: fcre-weir-data
       directory:
+## Openwhisk Settings
+openwhisk:
+  days-look-back: 1
+  container-dependencies: ""
+  next-trigger:
+    name: flare-download-observations-ready-fcre
+    container_name: flare-process-observations
 

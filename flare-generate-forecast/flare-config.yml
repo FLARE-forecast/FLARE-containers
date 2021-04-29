@@ -181,4 +181,10 @@ states_config_process_error: states_process_error.csv
 #######################################
 
 diagnostics_names:  [extc_coef]
-
+## Openwhisk Settings
+openwhisk:
+  days-look-back: 1
+  container-dependencies: "flare-process-noaa flare-process-observations flare-download-observations"
+  next-trigger:
+    name: flare-forecast-ready-fcre
+    container_name: flare-visualize
