@@ -107,7 +107,7 @@ fi
 # TODO: Cover corner cases such as wrong directory with the same name already exists.
 # Usage: git_pull location config_file
 function git_pull() {
-  ([ -d $(yq r ${2} ${1}.git.remote.branch) ] && cd $(yq r ${2} ${1}.git.remote.branch) && git pull && cd ..) || git clone --branch $(yq r ${2} ${1}.git.remote.branch) --depth 1 git@$(yq r ${2} ${1}.git.remote.server):$(yq r ${2} ${1}.git.remote.repository) $(yq r ${2} ${1}.git.remote.branch)
+  ([ -d $(yq r ${2} ${1}.git.remote.branch) ] && cd $(yq r ${2} ${1}.git.remote.branch) && git pull && cd ..) || git clone --branch $(yq r ${2} ${1}.git.remote.branch) --depth 1 https://$(yq r ${2} ${1}.git.remote.server)/$(yq r ${2} ${1}.git.remote.repository) $(yq r ${2} ${1}.git.remote.branch)
 }
 
 function pull_workdir() {

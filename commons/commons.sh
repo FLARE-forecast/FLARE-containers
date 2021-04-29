@@ -373,7 +373,7 @@ function clone_git_remote () {
   do
     git_repository=$(awk -F. '{print $1}' <<< $(awk -F/ '{print $NF}' <<< $(yq r ${1} ${2}[${i}].repository)))
     git_directory=$(yq r ${1} ${2}[${i}].branch)
-    ([ -d  ${git_directory} ] && is_right_git_dir ${git_repository} ${git_directory}) || git clone --depth=1 --branch $(yq r ${1} ${2}[${i}].branch) git@$(yq r ${1} ${2}[${i}].server):$(yq r ${1} ${2}[${i}].repository) $(yq r ${1} ${2}[${i}].branch)
+    ([ -d  ${git_directory} ] && is_right_git_dir ${git_repository} ${git_directory}) || git clone --depth=1 --branch $(yq r ${1} ${2}[${i}].branch) https://$(yq r ${1} ${2}[${i}].server)/$(yq r ${1} ${2}[${i}].repository) $(yq r ${1} ${2}[${i}].branch)
     let "i=i+1"
   done
 }
