@@ -36,4 +36,11 @@ lake_name_code: fcre
 lake_name: Falling Creek Reservoir
 lake_latitude: 37.307 # Degrees North
 lake_longitude: 79.837 # Degrees West
-
+## Openwhisk Settings
+openwhisk:
+  days-look-back: 1
+  container-dependencies: "flare-download-noaa flare-process-noaa"
+  next-trigger:
+    name: flare-noaa-ready-fcre
+    container_name: compound-trigger
+    type: noaa

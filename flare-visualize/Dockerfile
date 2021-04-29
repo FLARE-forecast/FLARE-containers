@@ -19,7 +19,8 @@ RUN apt-get -yq update && \
         libjq-dev \
         libudunits2-dev \
         libnode-dev \
-        libgd-dev && \
+        libgd-dev \
+        jq && \
     R -e "install.packages(c('yaml', 'remotes', 'imputeTS', 'rMR', 'stinepack'), repos = 'https://cloud.r-project.org')" && \
     R -e "remotes::install_github('FLARE-forecast/noaaGEFSpoint@fc08f6272da5b7bdeec3b764050e490482d27240')" && \
     R -e "remotes::install_github('eco4cast/EFIstandards@085bcd5e39b6ffb0ef94ce1fa692ed5810ea6ae3')" && \

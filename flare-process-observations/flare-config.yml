@@ -164,4 +164,11 @@ measurement_methods:
         - exo_sensor
     chla:
         - exo_sensor
-
+## Openwhisk Settings
+openwhisk:
+  days-look-back: 0
+  container-dependencies: "flare-download-observations"
+  next-trigger:
+    name: flare-observations-ready-fcre
+    container_name: compound-trigger
+    type: observations

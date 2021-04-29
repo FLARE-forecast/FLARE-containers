@@ -31,4 +31,10 @@ run_config: /root/flare/shared/flare-generate-forecast/forecast/configuration_fi
 ## Lake Information
 lake_name_code: fcre
 lake_name: Falling Creek Reservoir
-
+## Openwhisk Settings
+openwhisk:
+  days-look-back: 0
+  container-dependencies: "flare-generate-forecast flare-process-observations"
+  next-trigger:
+    name: flare-visualize-ready-fcre
+    container_name: 

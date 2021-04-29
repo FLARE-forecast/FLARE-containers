@@ -14,7 +14,8 @@ RUN apt-get -yq update && \
         ssh \
         tzdata \
         vim \
-        curl && \
+        curl \
+        jq && \
     wget -O /usr/bin/yq https://github.com/mikefarah/yq/releases/download/3.4.1/yq_linux_amd64 && \
     wget -O /usr/bin/mc https://dl.min.io/client/mc/release/linux-amd64/mc
 
@@ -34,7 +35,7 @@ RUN npm install && \
 # Copy Files to Container
 RUN mkdir -p /root/flare/
 COPY flare-container.sh /root/flare/
-RUN wget -O /root/flare/commons.sh https://raw.githubusercontent.com/FLARE-forecast/FLARE-containers/21.01.4/commons/commons.sh
+RUN wget -O /root/flare/commons.sh https://raw.githubusercontent.com/FLARE-forecast/FLARE-containers/master/commons/commons.sh
 RUN chmod +x /usr/bin/yq /usr/bin/mc /root/flare/flare-container.sh
 
 # Start OpenWhisk Service
