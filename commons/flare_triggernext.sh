@@ -10,7 +10,7 @@ NEXR_TRIGGER_INIT=$5
 echo $NEXR_TRIGGER_INIT > /root/next_payload.json
 NEXR_TRIGGER=$(yq r ${DIRECTORY_CONTAINER_SHARED}/${CONTAINER_NAME}/${CONFIG_FILE} openwhisk.next-trigger.name)
 NEXR_TRIGGER_CONTAINER=$(yq r ${DIRECTORY_CONTAINER_SHARED}/${CONTAINER_NAME}/${CONFIG_FILE} openwhisk.next-trigger.container_name)
-if [[ -z "$NEXR_TRIGGER_CONTAINER" ]]
+if [ -n "{$NEXR_TRIGGER_CONTAINER}" ];
 then
     payload="$(jq --arg key container_name --arg pass "$NEXR_TRIGGER_CONTAINER" '.[$key] = $pass' /root/next_payload.json )" && echo "${payload}" > /root/next_payload.json
     if [ $NEXR_TRIGGER_CONTAINER == "compound-trigger" ]
