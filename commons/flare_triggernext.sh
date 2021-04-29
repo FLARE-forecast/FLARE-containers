@@ -7,7 +7,6 @@ LAKE=$4
 NEXR_TRIGGER_INIT=$5
 
 # Generate next trigger payload based on given payload
-echo $NEXR_TRIGGER_INIT
 echo $NEXR_TRIGGER_INIT > /root/next_payload.json
 NEXR_TRIGGER=$(yq r ${DIRECTORY_CONTAINER_SHARED}/${CONTAINER_NAME}/${CONFIG_FILE} openwhisk.next-trigger.name)
 NEXR_TRIGGER_CONTAINER=$(yq r ${DIRECTORY_CONTAINER_SHARED}/${CONTAINER_NAME}/${CONFIG_FILE} openwhisk.next-trigger.container_name)
