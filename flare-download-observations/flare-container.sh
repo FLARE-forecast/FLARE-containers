@@ -110,60 +110,6 @@ function git_pull() {
   ([ -d $(yq r ${2} ${1}.git.remote.branch) ] && cd $(yq r ${2} ${1}.git.remote.branch) && git pull && cd ..) || git clone --branch $(yq r ${2} ${1}.git.remote.branch) --depth 1 https://$(yq r ${2} ${1}.git.remote.server)/$(yq r ${2} ${1}.git.remote.repository) $(yq r ${2} ${1}.git.remote.branch)
 }
 
-function pull_workdir() {
-  REMOTE_SERVER=$1
-  REMOTE_PORT=$2
-  LAKE=$3
-  CONTAINER=$4
-  USERNAME=$5
-
-  ssh-keyscan -p ${REMOTE_PORT} -t rsa ${REMOTE_SERVER} >> ~/.ssh/known_hosts
-  cd ${DIRECTORY_HOST}
-
-  if [[ ! -e "${DIRECTORY_HOST}/${LAKE}" ]]; then
-      git clone ssh://git@${REMOTE_SERVER}:${REMOTE_PORT}/${USERNAME}/${LAKE}.git
-  fi
-  cd ${LAKE}/
-  git checkout ${CONTAINER}
-  git pull
-
-  if [ -f "config.tar.gz" ]; then
-      tar -xzvf config.tar.gz
-      # echo "{\"hello\":$(<flare-config.yml)}"
-      if [ -f "flare-config.yml" ]; then
-          cp flare-config.yml ${DIRECTORY_HOST_SHARED}/${CONTAINER}/flare-config.yml
-      fi
-  fi
-}
-
-function push_workdir() {
-  REMOTE_SERVER=$1
-  REMOTE_PORT=$2
-  LAKE=$3
-  CONTAINER=$4
-  USERNAME=$5
-
-  TIMESTAMP=$(date +"%d_%m_%y")
-  ssh-keyscan -p ${REMOTE_PORT} -t rsa ${REMOTE_SERVER} >> ~/.ssh/known_hosts
-
-  if [[ ! -e "${DIRECTORY_HOST}/${LAKE}" ]]; then
-      error_exit "$LINENO: No ${LAKE} gitlab directory."
-  fi
-  cd ${DIRECTORY_HOST}/${LAKE}/
-  git remote add gitlab ssh://git@${REMOTE_SERVER}:${REMOTE_PORT}/${USERNAME}/${LAKE}.git
-  git fetch gitlab ${CONTAINER}
-  git checkout ${CONTAINER}
-
-  if [[ ! -e "${DIRECTORY_CONTAINER_SHARED}/test-data/${LAKE}" ]]; then
-      error_exit "$LINENO: No test-data directory."
-  fi
-  tar -czvf workdir_${TIMESTAMP}.tar.gz ${DIRECTORY_CONTAINER_SHARED}/test-data/${LAKE}
-  git add workdir_${TIMESTAMP}.tar.gz
-  git clean -f
-  git commit -m "$(date +"%D %T") - Add NOAA Forecast"
-  git push gitlab ${CONTAINER}
-}
-
 CONTAINER_NAME=${1}
 CONTAINER_VERSION=$(yq r ${DIRECTORY_CONTAINER_SHARED}/${CONTAINER_NAME}/${CONFIG_FILE} container.version)
 echo "Welcome to ${CONTAINER_NAME} version ${CONTAINER_VERSION}!"
