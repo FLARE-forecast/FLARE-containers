@@ -211,7 +211,7 @@ class QueuedDownloader():
 def main():
     if len(sys.argv) != 5:
         print("Usage: python3 " + sys.argv[0] + " base_directory date lat lon\n")
-        print("Example: python3 " + sys.argv[0] + " /opt/flare 20210223 255 160\n")
+        print("Example: python3 " + sys.argv[0] + " ~/flare-host 20210223 255 160\n")
         return
 
     lat = '[' + str(sys.argv[3]) + ']'

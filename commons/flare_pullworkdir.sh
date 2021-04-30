@@ -7,8 +7,8 @@ error_exit()
 	exit 1
 }
 
-DIRECTORY_HOST="/opt/flare"
-DIRECTORY_HOST_SHARED="/opt/flare/shared"
+DIRECTORY_HOST="$HOME/flare-host"
+DIRECTORY_HOST_SHARED="$HOME/flare-host/shared"
 DIRECTORY_CONTAINER_SHARED="/root/flare/shared"
 CONFIG_FILE="flare-config.yml"
 
