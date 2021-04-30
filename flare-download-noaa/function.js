@@ -30,7 +30,7 @@ app.post('/run', function (req, res) {
     if(!process1.status){
 
         if(`${payload.container_name}`==`flare-generate-forecast`){
-            shell.exec( `/bin/bash ~/flare-host/${payload.container_name}/flare-host.sh -d --openwhisk`);
+            shell.exec( `/bin/bash /root/flare-host/${payload.container_name}/flare-host.sh -d --openwhisk`);
             shell.echo(`Second run of flare-host.sh`);
             shell.exec( `current_date=$(date +%Y%m%d)`);
             shell.exec( `yq w -i run_configuration.yml start_day_local "$(date -d "$current_date - 4 days" +%Y-%m-%d)"`);
@@ -40,7 +40,7 @@ app.post('/run', function (req, res) {
             shell.cp(`/code/id_rsa`, `/root/.ssh/`);
         }
 
-        const process2 = cp.spawnSync('/bin/bash', [`~/flare-host/${payload.container_name}/flare-host.sh`, '-d', '--openwhisk'], { stdio: 'inherit' });
+        const process2 = cp.spawnSync('/bin/bash', [`/root/flare-host/${payload.container_name}/flare-host.sh`, '-d', '--openwhisk'], { stdio: 'inherit' });
         if(!process2.status){
                 shell.exec(`wget https://raw.githubusercontent.com/FLARE-forecast/FLARE-containers/master/commons/flare_pushworkdir.sh`);
                 const process3 = cp.spawnSync('/bin/bash', ['/code/flare_pushworkdir.sh', `${payload.s3_endpoint}`, `${payload.s3_access_key}`, `${payload.s3_secret_key}`, `${payload.container_name}`, `${payload.lake}`], { stdio: 'inherit' });
