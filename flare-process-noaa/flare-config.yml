@@ -10,7 +10,7 @@ git:
 ## Container Settings
 container:
   name: flare-process-noaa
-  version: latest
+  version: 21.01.4
   working-directory:
     pre-run-pull: FALSE
     post-run-push: FALSE
