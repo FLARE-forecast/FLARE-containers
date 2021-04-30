@@ -14,8 +14,8 @@ YQ=$HOME/bin/yq
 CONFIG="flare-config.yml"
 HOST_SCRIPT="flare-host.sh"
 COMMONS_SCRIPT="commons.sh"
-DIRECTORY_HOST="$HOME/flare"
-DIRECTORY_HOST_SHARED="$HOME/flare/shared"
+DIRECTORY_HOST="$HOME/flare-host"
+DIRECTORY_HOST_SHARED="$HOME/flare-host/shared"
 
 CONTAINER_NAME=${1}
 CONTAINER_VERSION=${2}

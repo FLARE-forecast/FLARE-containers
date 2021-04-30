@@ -20,7 +20,7 @@ RUN apt-get -yq update && \
     wget -O /usr/bin/mc https://dl.min.io/client/mc/release/linux-amd64/mc
 
 # Install Node
-ENV NODE_VERSION=14.16.1 
+ENV NODE_VERSION=14.16.1
 RUN curl -o- https://raw.githubusercontent.com/creationix/nvm/v0.38.0/install.sh | bash
 ENV NVM_DIR=/root/.nvm
 RUN . "$NVM_DIR/nvm.sh" && nvm install ${NODE_VERSION}
@@ -35,7 +35,7 @@ RUN npm install && \
 # Copy Files to Container
 RUN mkdir -p /root/flare/
 COPY flare-container.sh /root/flare/
-RUN wget -O /root/flare/commons.sh https://raw.githubusercontent.com/FLARE-forecast/FLARE-containers/master/commons/commons.sh
+RUN wget -O /root/flare/commons.sh https://raw.githubusercontent.com/FLARE-forecast/FLARE-containers/21.01.4/commons/commons.sh
 RUN chmod +x /usr/bin/yq /usr/bin/mc /root/flare/flare-container.sh
 
 # Start OpenWhisk Service
@@ -43,4 +43,3 @@ WORKDIR /code
 COPY . /code
 EXPOSE 8080
 CMD ["npm", "start"]
-
