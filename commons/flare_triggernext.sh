@@ -59,7 +59,7 @@ then
             COMPLETED_CHECK=false
             FILE=${CHECK_FOLDER}/gefs_pgrb2ap5_all_${time}z.ascii?${name}[0:30][0:64][255][160]
             # Check if file is exist.
-            if [[ ! -f "${FILE}" ]]; 
+            if [[ ! -f "${FILE}" ]];
             then
                 echo "$FILE does not exist."
                 TRIGGER=false
@@ -82,9 +82,9 @@ then
 
     # Check if it has triggered, if not trigger flare-process-noaa
     TRIGGER_FILE=${DIRECTORY_CONTAINER_SHARED}/${CONTAINER_NAME}/${NOAA_MODEL}/${LAKE_NAME_CODE}/${TODAY_DATE}.trg
-    if [[ ${TRIGGER} = true ]]; 
+    if [[ ${TRIGGER} = true ]];
     then
-        if [[ ! -f "$TRIGGER_FILE" ]]; 
+        if [[ ! -f "$TRIGGER_FILE" ]];
         then
             echo "Trigger flare-process-noaa"
             #Trigger flare-process-noaa

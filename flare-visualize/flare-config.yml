@@ -37,4 +37,4 @@ openwhisk:
   container-dependencies: "flare-generate-forecast flare-process-observations"
   next-trigger:
     name: flare-visualize-ready-fcre
-    container_name: 
+    container_name:

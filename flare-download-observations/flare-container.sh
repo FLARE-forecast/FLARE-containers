@@ -123,9 +123,6 @@ LAKE=$(yq r ${DIRECTORY_CONTAINER_SHARED}/${CONTAINER_NAME}/${CONFIG_FILE} conta
 CONTAINER=$(yq r ${DIRECTORY_CONTAINER_SHARED}/${CONTAINER_NAME}/${CONFIG_FILE} container.working-directory.git.remote.repository)
 USERNAME=$(yq r ${DIRECTORY_CONTAINER_SHARED}/${CONTAINER_NAME}/${CONFIG_FILE} container.working-directory.git.remote.user-name)
 
-
-# Start flare-container work
-
 cd ${DIRECTORY_CONTAINER}
 
 CONTAINER_NAME=${1}
