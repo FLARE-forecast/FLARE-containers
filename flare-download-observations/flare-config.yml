@@ -66,4 +66,3 @@ openwhisk:
   next-trigger:
     name: flare-download-observations-ready-fcre
     container_name: flare-process-observations
-
