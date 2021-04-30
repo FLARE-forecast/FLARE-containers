@@ -123,11 +123,6 @@ LAKE=$(yq r ${DIRECTORY_CONTAINER_SHARED}/${CONTAINER_NAME}/${CONFIG_FILE} conta
 CONTAINER=$(yq r ${DIRECTORY_CONTAINER_SHARED}/${CONTAINER_NAME}/${CONFIG_FILE} container.working-directory.git.remote.repository)
 USERNAME=$(yq r ${DIRECTORY_CONTAINER_SHARED}/${CONTAINER_NAME}/${CONFIG_FILE} container.working-directory.git.remote.user-name)
 
-# pre pull work dir
-if [[ "${arg_o:?}" = "1" ]] && [[ "${PRE_RUN_PULL_WORKDIR:?}" = "True" ]]; then
-  pull_workdir ${REMOTE_SERVER} ${REMOTE_PORT} ${LAKE} ${CONTAINER} ${USERNAME}
-fi
-
 
 # Start flare-container work
 
@@ -183,8 +178,3 @@ wget --no-verbose --show-progress --progress=bar:force:noscroll --no-clobber $(y
 NOAA_LOCATION=$(yq r ${DIRECTORY_CONTAINER_SHARED}/${CONTAINER_NAME}/${CONFIG_FILE} noaa_location)
 # No Need to Pull NOAA Data If flare-download-noaa Container Has Already Been Run Successfully
 #cd ${DIRECTORY_CONTAINER_SHARED}/${NOAA_LOCATION} && git pull && cd ..
-
-# post push work dir
-if [[ "${arg_o:?}" = "1" ]] && [[ "${POST_RUN_PUSH_WORKDIR:?}" = "True" ]]; then
-  push_workdir ${REMOTE_SERVER} ${REMOTE_PORT} ${LAKE} ${CONTAINER} ${USERNAME}
-fi

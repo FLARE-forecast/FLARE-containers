@@ -7,8 +7,8 @@ error_exit()
 	exit 1
 }
 
-DIRECTORY_HOST="~/flare"
-DIRECTORY_HOST_SHARED="~/flare/shared"
+DIRECTORY_HOST="/opt/flare"
+DIRECTORY_HOST_SHARED="/opt/flare/shared"
 DIRECTORY_CONTAINER_SHARED="/root/flare/shared"
 CONFIG_FILE="flare-config.yml"
 
@@ -26,13 +26,13 @@ mc alias set flare $s3_endpoint $s3_access_key $s3_secret_key
 
 # copy config file
 mc cp flare/${LAKE}/${CONTAINER}/${CONFIG_FILE} ${DIRECTORY_HOST_SHARED}/${CONTAINER}/
-mc cp flare/${LAKE}/${CONTAINER}/${CONFIG_FILE} .
+# mc cp flare/${LAKE}/${CONTAINER}/${CONFIG_FILE} .
 Ndays_steps=$(yq r ${DIRECTORY_HOST_SHARED}/${CONTAINER}/${CONFIG_FILE} openwhisk.days-look-back)
 set_of_dependencies=$(yq r ${DIRECTORY_HOST_SHARED}/${CONTAINER}/${CONFIG_FILE} openwhisk.container-dependencies)
 current_date=$(date +%Y%m%d)
 
 # copy state.json for compound trigger
-if [ $CONTAINER == "compound-trigger" ]
+if [[ "$CONTAINER" == "compound-trigger" ]];
 then
 	mc cp flare/${LAKE}/${CONTAINER}/state.json ${DIRECTORY_HOST_SHARED}/${CONTAINER}/
 	mc cp flare/${LAKE}/${CONTAINER}/${CONFIG_FILE} ${DIRECTORY_CONTAINER_SHARED}/${CONTAINER}/
@@ -62,3 +62,5 @@ do
     done
 	downloaded==true || error_exit "$LINENO: An error has occurred in copy $FLARE_CONTAINER_NAME working directory."
 done
+# in case that the old config file rewrites the new one
+mc cp flare/${LAKE}/${CONTAINER}/${CONFIG_FILE} ${DIRECTORY_HOST_SHARED}/${CONTAINER}/

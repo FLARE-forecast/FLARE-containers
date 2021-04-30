@@ -10,18 +10,25 @@ NEXR_TRIGGER_INIT=$5
 echo $NEXR_TRIGGER_INIT > /root/next_payload.json
 NEXR_TRIGGER=$(yq r ${DIRECTORY_CONTAINER_SHARED}/${CONTAINER_NAME}/${CONFIG_FILE} openwhisk.next-trigger.name)
 NEXR_TRIGGER_CONTAINER=$(yq r ${DIRECTORY_CONTAINER_SHARED}/${CONTAINER_NAME}/${CONFIG_FILE} openwhisk.next-trigger.container_name)
-if [ -n "{$NEXR_TRIGGER_CONTAINER}" ];
+if [[ -n "$NEXR_TRIGGER_CONTAINER" ]];
 then
     payload="$(jq --arg key container_name --arg pass "$NEXR_TRIGGER_CONTAINER" '.[$key] = $pass' /root/next_payload.json )" && echo "${payload}" > /root/next_payload.json
-    if [ $NEXR_TRIGGER_CONTAINER == "compound-trigger" ]
+    if [[ "$NEXR_TRIGGER_CONTAINER" == "compound-trigger" ]];
     then
         NEXR_TRIGGER_TYPE=$(yq r ${DIRECTORY_CONTAINER_SHARED}/${CONTAINER_NAME}/${CONFIG_FILE} openwhisk.next-trigger.type)
         payload="$(jq --arg key type --arg pass "$NEXR_TRIGGER_TYPE" '.[$key] = $pass' /root/next_payload.json )" && echo "${payload}" > /root/next_payload.json
     fi
 fi
 
+# Remove type field in the next trigger if the current one the compound-trigger
+if [[ "$CONTAINER_NAME" == "compound-trigger" ]];
+then
+    payload="$(jq 'del(.type)' /root/next_payload.json)" && echo "${payload}" > /root/next_payload.json
+fi
+
 # Start next trigger
-if [ $CONTAINER_NAME == "flare-download-noaa" ]
+echo "$payload"
+if [[ "$CONTAINER_NAME" == "flare-download-noaa" ]];
 then
     NUMBER_OF_DAYS=$(yq r ${DIRECTORY_CONTAINER_SHARED}/${CONTAINER_NAME}/${CONFIG_FILE} number-of-days)
     NOAA_MODEL=$(yq r ${DIRECTORY_CONTAINER_SHARED}/${CONTAINER_NAME}/${CONFIG_FILE} noaa_model)
