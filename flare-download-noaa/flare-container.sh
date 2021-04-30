@@ -113,11 +113,13 @@ GIT_REMOTE_SSHKEYPRIVATE_FILE=$(awk -F/ '{print $NF}' <<< ${GIT_REMOTE_SSHKEYPRI
 
 # Setup SSH
 mkdir -p /root/.ssh
-[[ -e ${DIRECTORY_CONTAINER_SHARED}/${CONTAINER_NAME}/${GIT_REMOTE_SSHKEYPRIVATE_FILE} ]] && cp -u ${DIRECTORY_CONTAINER_SHARED}/${CONTAINER_NAME}/${GIT_REMOTE_SSHKEYPRIVATE_FILE} /root/.ssh/id_rsa
+[[ -e ${GIT_REMOTE_SSHKEYPRIVATE_FILE} ]] && cp -u ${DIRECTORY_CONTAINER_SHARED}/${CONTAINER_NAME}/${GIT_REMOTE_SSHKEYPRIVATE_FILE} /root/.ssh/id_rsa
+# TODO: Add All Remote Servers to known_hosts
+[[ -e ${GIT_REMOTE_SERVER} ]] && ssh-keyscan ${GIT_REMOTE_SERVER} > /root/.ssh/known_hosts
 
 # Setup Git
-git config --global user.name ${GIT_REMOTE_USERNAME}
-git config --global user.email ${GIT_REMOTE_USEREMAIL}
+[[ -e ${GIT_REMOTE_USERNAME} ]] && git config --global user.name ${GIT_REMOTE_USERNAME}
+[[ -e ${GIT_REMOTE_USEREMAIL} ]] && git config --global user.email ${GIT_REMOTE_USEREMAIL}
 
 # Run Python Script
 NUMBER_OF_DAYS=$(yq r ${DIRECTORY_CONTAINER_SHARED}/${CONTAINER_NAME}/${CONFIG_FILE} number-of-days)
