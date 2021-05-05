@@ -22,15 +22,15 @@ container:
         branch: master
         directory: fcre
 ## Container Paths
-flare_path: /root/flare
-flare_shared_path: /root/flare/shared
-qaqc_data_location: /root/flare/shared/flare-process-observations/fcre-processed-observations
-data_location: /root/flare/shared/flare-download-observations
-noaa_location: /root/flare/shared/flare-process-noaa
+flare_path: /home/user/flare
+flare_shared_path: /home/user/flare/shared
+qaqc_data_location: /home/user/flare/shared/flare-process-observations/fcre-processed-observations
+data_location: /home/user/flare/shared/flare-download-observations
+noaa_location: /home/user/flare/shared/flare-process-noaa
 lakes_directory: flare_lake_examples
-forecast_location: /root/flare/shared/flare-generate-forecast/forecast
-execute_location: /root/flare/shared/flare-generate-forecast/working_directory
-run_config: /root/flare/shared/flare-generate-forecast/forecast/configuration_files/run_configuration.yml
+forecast_location: /home/user/flare/shared/flare-generate-forecast/forecast
+execute_location: /home/user/flare/shared/flare-generate-forecast/working_directory
+run_config: /home/user/flare/shared/flare-generate-forecast/forecast/configuration_files/run_configuration.yml
 ##########################
 # Lake information
 ###########################

@@ -9,7 +9,7 @@ error_exit()
 
 DIRECTORY_HOST="$HOME/flare-host"
 DIRECTORY_HOST_SHARED="$HOME/flare-host/shared"
-DIRECTORY_CONTAINER_SHARED="/root/flare/shared"
+DIRECTORY_CONTAINER_SHARED="/home/user/flare/shared"
 CONFIG_FILE="flare-config.yml"
 
 s3_endpoint=$1

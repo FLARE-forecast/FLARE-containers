@@ -49,7 +49,7 @@ source "$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)/commons.sh"
 ##############################################################################
 
 function __b3bp_cleanup_before_exit () {
-  rm -rf /root/.ssh
+  rm -rf /home/user/.ssh
   info "Done Cleaning Up Container"
 }
 trap __b3bp_cleanup_before_exit EXIT
@@ -118,8 +118,8 @@ FORECAST_LOCATION=$(yq r ${DIRECTORY_CONTAINER_SHARED}/${CONTAINER_NAME}/${CONFI
 GIT_REMOTE_SSHKEYPRIVATE_FILE=$(awk -F/ '{print $NF}' <<< ${GIT_REMOTE_SSHKEYPRIVATE})
 
 # Setup SSH
-mkdir -p /root/.ssh
-[[ -e ${GIT_REMOTE_SSHKEYPRIVATE_FILE} ]] && cp -u ${DIRECTORY_CONTAINER_SHARED}/${CONTAINER_NAME}/${GIT_REMOTE_SSHKEYPRIVATE_FILE} /root/.ssh/id_rsa
+mkdir -p /home/user/.ssh
+[[ -e ${GIT_REMOTE_SSHKEYPRIVATE_FILE} ]] && cp -u ${DIRECTORY_CONTAINER_SHARED}/${CONTAINER_NAME}/${GIT_REMOTE_SSHKEYPRIVATE_FILE} /home/user/.ssh/id_rsa
 
 # Setup Git
 [[ -e ${GIT_REMOTE_USERNAME} ]] && git config --global user.name ${GIT_REMOTE_USERNAME}
@@ -127,7 +127,7 @@ mkdir -p /root/.ssh
 
 # Transfer Config Files
 mkdir -p ${FORECAST_LOCATION}
-cp -rn /root/flare/${LAKES_DIRECTORY}/${LAKE_NAME_CODE}/glm/configuration_files/ ${FORECAST_LOCATION}/
+cp -rn /home/user/flare/${LAKES_DIRECTORY}/${LAKE_NAME_CODE}/glm/configuration_files/ ${FORECAST_LOCATION}/
 
 # Run R Script
 # Pass `${CONTAINER_NAME}` Argument to the R Script

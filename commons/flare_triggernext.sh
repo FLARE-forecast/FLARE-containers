@@ -1,5 +1,5 @@
 CONFIG_FILE="flare-config.yml"
-DIRECTORY_CONTAINER_SHARED="/root/flare/shared"
+DIRECTORY_CONTAINER_SHARED="/home/user/flare/shared"
 APIHOST=$1
 AUTH=$2
 CONTAINER_NAME=$3
@@ -7,23 +7,23 @@ LAKE=$4
 NEXR_TRIGGER_INIT=$5
 
 # Generate next trigger payload based on given payload
-echo $NEXR_TRIGGER_INIT > /root/next_payload.json
+echo $NEXR_TRIGGER_INIT > /home/user/next_payload.json
 NEXR_TRIGGER=$(yq r ${DIRECTORY_CONTAINER_SHARED}/${CONTAINER_NAME}/${CONFIG_FILE} openwhisk.next-trigger.name)
 NEXR_TRIGGER_CONTAINER=$(yq r ${DIRECTORY_CONTAINER_SHARED}/${CONTAINER_NAME}/${CONFIG_FILE} openwhisk.next-trigger.container_name)
 if [[ -n "$NEXR_TRIGGER_CONTAINER" ]];
 then
-    payload="$(jq --arg key container_name --arg pass "$NEXR_TRIGGER_CONTAINER" '.[$key] = $pass' /root/next_payload.json )" && echo "${payload}" > /root/next_payload.json
+    payload="$(jq --arg key container_name --arg pass "$NEXR_TRIGGER_CONTAINER" '.[$key] = $pass' /home/user/next_payload.json )" && echo "${payload}" > /home/user/next_payload.json
     if [[ "$NEXR_TRIGGER_CONTAINER" == "compound-trigger" ]];
     then
         NEXR_TRIGGER_TYPE=$(yq r ${DIRECTORY_CONTAINER_SHARED}/${CONTAINER_NAME}/${CONFIG_FILE} openwhisk.next-trigger.type)
-        payload="$(jq --arg key type --arg pass "$NEXR_TRIGGER_TYPE" '.[$key] = $pass' /root/next_payload.json )" && echo "${payload}" > /root/next_payload.json
+        payload="$(jq --arg key type --arg pass "$NEXR_TRIGGER_TYPE" '.[$key] = $pass' /home/user/next_payload.json )" && echo "${payload}" > /home/user/next_payload.json
     fi
 fi
 
 # Remove type field in the next trigger if the current one the compound-trigger
 if [[ "$CONTAINER_NAME" == "compound-trigger" ]];
 then
-    payload="$(jq 'del(.type)' /root/next_payload.json)" && echo "${payload}" > /root/next_payload.json
+    payload="$(jq 'del(.type)' /home/user/next_payload.json)" && echo "${payload}" > /home/user/next_payload.json
 fi
 
 # Start next trigger

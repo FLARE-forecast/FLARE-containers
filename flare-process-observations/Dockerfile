@@ -25,22 +25,22 @@ RUN apt-get -yq update && \
 # Install Node
 ENV NODE_VERSION=14.16.1
 RUN curl -o- https://raw.githubusercontent.com/creationix/nvm/v0.38.0/install.sh | bash
-ENV NVM_DIR=/root/.nvm
+ENV NVM_DIR=/home/user/.nvm
 RUN . "$NVM_DIR/nvm.sh" && nvm install ${NODE_VERSION}
 RUN . "$NVM_DIR/nvm.sh" && nvm use v${NODE_VERSION}
 RUN . "$NVM_DIR/nvm.sh" && nvm alias default v${NODE_VERSION}
-ENV PATH="/root/.nvm/versions/node/v${NODE_VERSION}/bin/:${PATH}"
+ENV PATH="/home/user/.nvm/versions/node/v${NODE_VERSION}/bin/:${PATH}"
 RUN npm install && \
     npm install shelljs \
         nodemon \
         express
 
 # Copy Files to Container
-RUN mkdir -p /root/flare/flare_lake_examples/
-COPY flare-container.sh /root/flare/
-RUN wget -O /root/flare/commons.sh https://raw.githubusercontent.com/FLARE-forecast/FLARE-containers/21.01.4/commons/commons.sh
-RUN chmod +x /usr/bin/yq /usr/bin/mc /root/flare/flare-container.sh
-ADD flare_lake_examples/ /root/flare/flare_lake_examples/
+RUN mkdir -p /home/user/flare/flare_lake_examples/
+COPY flare-container.sh /home/user/flare/
+RUN wget -O /home/user/flare/commons.sh https://raw.githubusercontent.com/FLARE-forecast/FLARE-containers/21.01.4/commons/commons.sh
+RUN chmod +x /usr/bin/yq /usr/bin/mc /home/user/flare/flare-container.sh
+ADD flare_lake_examples/ /home/user/flare/flare_lake_examples/
 
 # Start OpenWhisk Service
 WORKDIR /code

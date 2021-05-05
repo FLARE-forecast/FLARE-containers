@@ -352,8 +352,8 @@ CONFIG_FILE="flare-config.yml"
 CONTAINER_SCRIPT="flare-container.sh"
 DIRECTORY_HOST="$HOME/flare-host"
 DIRECTORY_HOST_SHARED="$HOME/flare-host/shared"
-DIRECTORY_CONTAINER="/root/flare"
-DIRECTORY_CONTAINER_SHARED="/root/flare/shared"
+DIRECTORY_CONTAINER="/home/user/flare"
+DIRECTORY_CONTAINER_SHARED="/home/user/flare/shared"
 SCRIPTS_DIRECTORY="scripts"
 
 # Check If the Directory Is the Expected Git Repository

@@ -22,10 +22,10 @@ container:
         branch: master
         directory: fcre
 ## Container Paths
-flare_path: /root/flare
-flare_shared_path: /root/flare/shared
-qaqc_data_location: /root/flare/shared/flare-process-observations/fcre-processed-observations
-data_location: /root/flare/shared/flare-download-observations
+flare_path: /home/user/flare
+flare_shared_path: /home/user/flare/shared
+qaqc_data_location: /home/user/flare/shared/flare-process-observations/fcre-processed-observations
+data_location: /home/user/flare/shared/flare-download-observations
 lakes_directory: flare_lake_examples
 
 ##########################

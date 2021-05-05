@@ -35,8 +35,8 @@ wget ${HOST_SCRIPT_URL} -O ${DIRECTORY_HOST}/${CONTAINER_NAME}/${HOST_SCRIPT}
 wget ${COMMONS_SCRIPT_URL} -O ${DIRECTORY_HOST}/${CONTAINER_NAME}/${COMMONS_SCRIPT}
 chmod +x ${YQ} ${DIRECTORY_HOST}/${CONTAINER_NAME}/${HOST_SCRIPT}
 
-# Set Default Value for ssh-key.private /home/$USER/.ssh/id_rsa (default for non-root), /root/.ssh/id_rsa (default for root)
-# yq w -i ${DIRECTORY_HOST_SHARED}/${CONTAINER_NAME}/${CONFIG} git.remote.ssh-key-private $(([ $EUID -eq 0 ] && echo "/root/.ssh/id_rsa") || echo "/home/$USER/.ssh/id_rsa")
+# Set Default Value for ssh-key.private /home/$USER/.ssh/id_rsa (default for non-root), /home/user/.ssh/id_rsa (default for root)
+# yq w -i ${DIRECTORY_HOST_SHARED}/${CONTAINER_NAME}/${CONFIG} git.remote.ssh-key-private $(([ $EUID -eq 0 ] && echo "/home/user/.ssh/id_rsa") || echo "/home/$USER/.ssh/id_rsa")
 
 # Set Default Value for git.remote.user.name and git.remote.user.email from the Host Git Config
 # yq w -i ${DIRECTORY_HOST_SHARED}/${CONTAINER_NAME}/${CONFIG} git.remote.user-name "$(git config --global user.name)"

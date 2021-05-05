@@ -22,12 +22,12 @@ container:
         branch: master
         directory: fcre
 ## Container Paths
-flare_path: /root/flare
-flare_shared_path: /root/flare/shared
-qaqc_data_location: /root/flare/shared/flare-process-observations/fcre-processed-observations
+flare_path: /home/user/flare
+flare_shared_path: /home/user/flare/shared
+qaqc_data_location: /home/user/flare/shared/flare-process-observations/fcre-processed-observations
 lakes_directory: flare_lake_examples
-forecast_location: /root/flare/shared/flare-generate-forecast/forecast
-run_config: /root/flare/shared/flare-generate-forecast/forecast/configuration_files/run_configuration.yml
+forecast_location: /home/user/flare/shared/flare-generate-forecast/forecast
+run_config: /home/user/flare/shared/flare-generate-forecast/forecast/configuration_files/run_configuration.yml
 ## Lake Information
 lake_name_code: fcre
 lake_name: Falling Creek Reservoir

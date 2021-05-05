@@ -49,7 +49,7 @@ source "$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)/commons.sh"
 ##############################################################################
 
 function __b3bp_cleanup_before_exit () {
-  rm -rf /root/.ssh
+  rm -rf /home/user/.ssh
   info "Done Cleaning Up Container"
 }
 trap __b3bp_cleanup_before_exit EXIT
@@ -142,10 +142,10 @@ ln -nsf ${DIRECTORY_CONTAINER_SHARED}/${CONTAINER_NAME}/fcre-manual-data ${DIREC
 GIT_REMOTE_SSHKEYPRIVATE_FILE=$(awk -F/ '{print $NF}' <<< ${GIT_REMOTE_SSHKEYPRIVATE})
 
 # Setup SSH
-mkdir -p /root/.ssh
-[[ -e ${GIT_REMOTE_SSHKEYPRIVATE_FILE} ]] && cp -u ${DIRECTORY_CONTAINER_SHARED}/${CONTAINER_NAME}/${GIT_REMOTE_SSHKEYPRIVATE_FILE} /root/.ssh/id_rsa
+mkdir -p /home/user/.ssh
+[[ -e ${GIT_REMOTE_SSHKEYPRIVATE_FILE} ]] && cp -u ${DIRECTORY_CONTAINER_SHARED}/${CONTAINER_NAME}/${GIT_REMOTE_SSHKEYPRIVATE_FILE} /home/user/.ssh/id_rsa
 # TODO: Add All Remote Servers to known_hosts
-[[ -e ${GIT_REMOTE_SERVER} ]] && ssh-keyscan ${GIT_REMOTE_SERVER} > /root/.ssh/known_hosts
+[[ -e ${GIT_REMOTE_SERVER} ]] && ssh-keyscan ${GIT_REMOTE_SERVER} > /home/user/.ssh/known_hosts
 
 # Setup Git
 [[ -e ${GIT_REMOTE_USERNAME} ]] && git config --global user.name ${GIT_REMOTE_USERNAME}

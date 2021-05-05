@@ -13,7 +13,7 @@ from io import BytesIO
 import yaml
 
 container_name = str(sys.argv[1]).split("/")[-3]
-with open('/root/flare/shared/'+ container_name +'/flare-config.yml', 'r') as f:
+with open('/home/user/flare/shared/'+ container_name +'/flare-config.yml', 'r') as f:
     config = yaml.load(f, Loader=yaml.FullLoader)
 
 def SetupLogging():

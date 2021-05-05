@@ -7,7 +7,7 @@ error_exit()
 	exit 1
 }
 
-DIRECTORY_CONTAINER_SHARED="/root/flare/shared"
+DIRECTORY_CONTAINER_SHARED="/home/user/flare/shared"
 
 s3_endpoint=$1
 s3_access_key=$2

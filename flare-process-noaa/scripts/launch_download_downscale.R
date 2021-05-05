@@ -11,7 +11,7 @@ library(dplyr)
 print(paste("Running NOAA scripts starting at:", as.character(Sys.time())))
 
 #Read configuration file
-config <- yaml::read_yaml(file.path("/root/flare/shared", args[1], "flare-config.yml"))
+config <- yaml::read_yaml(file.path("/home/user/flare/shared", args[1], "flare-config.yml"))
 output_directory <- file.path(config$flare_shared_path, config$container$name)
 
 #Read list of latitude and longitudes
