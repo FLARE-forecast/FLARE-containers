@@ -25,6 +25,7 @@ COMMONS_SCRIPT_URL=https://raw.githubusercontent.com/FLARE-forecast/FLARE-contai
 
 # Setup Directories on the Host
 mkdir -p ${DIRECTORY_HOST}/${CONTAINER_NAME} ${DIRECTORY_HOST_SHARED}/${CONTAINER_NAME}
+chmod -R 777 ${DIRECTORY_HOST_SHARED}/${CONTAINER_NAME}
 mkdir -p $(dirname ${YQ})
 [[ ":$PATH:" != *":$HOME/bin:"* ]] && echo -e "\nexport PATH='$HOME/bin:$PATH'" >> $HOME/.bashrc && source $HOME/.bashrc
 
