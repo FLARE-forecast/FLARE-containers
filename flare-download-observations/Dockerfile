@@ -10,10 +10,10 @@ RUN groupadd --gid 5000 user \
     && useradd --home-dir /home/user --create-home --uid 5000 \
         --gid 5000 --shell /bin/sh --skel /dev/null user \
     && mkdir -p /home/user/bin /home/user/flare/shared \
-    && chown -R user:user /home/user /home/user/flare/shared
+    && chown -R user:user /home/user \
+    && chmod -R 777 /home/user/flare/shared
 
 WORKDIR /home/user
-VOLUME /home/user/flare/shared
 
 # Install Dependencies
 RUN apt-get -yq update && \
