@@ -13,8 +13,6 @@ RUN groupadd --gid 5000 user \
     && chown -R user:user /home/user \
     && chmod -R 777 /home/user/flare/shared
 
-WORKDIR /home/user
-
 # Install Dependencies
 RUN apt-get -yq update && \
     apt-get -yqq install wget \
@@ -28,8 +26,8 @@ RUN apt-get -yq update && \
         curl \
         jq
 
-RUN su - user -c "wget -O /home/user/bin/yq https://github.com/mikefarah/yq/releases/download/3.4.1/yq_linux_amd64 && \
-    wget -O /home/user/bin/mc https://dl.min.io/client/mc/release/linux-amd64/mc"
+RUN wget -O /home/user/bin/yq https://github.com/mikefarah/yq/releases/download/3.4.1/yq_linux_amd64 && \
+    wget -O /home/user/bin/mc https://dl.min.io/client/mc/release/linux-amd64/mc
 
 # Install Node
 ENV NODE_VERSION=14.16.1
@@ -45,14 +43,15 @@ RUN npm install && \
         express
 
 # Copy Files to Container
-RUN su - user -c "mkdir -p /home/user/flare/"
+RUN mkdir -p /home/user/flare/
 COPY --chown=user:user flare-download-observations/flare-container.sh /home/user/flare
 COPY --chown=user:user commons/commons.sh /home/user/flare
-RUN su - user -c "chmod +x /home/user/bin/yq /home/user/bin/mc /home/user/flare/flare-container.sh"
+RUN chown -R user:user /home/user/bin/yq /home/user/bin/mc /home/user/flare/ \
+    && chmod +x /home/user/bin/yq /home/user/bin/mc /home/user/flare/flare-container.sh
 
 # Start OpenWhisk Service
 WORKDIR /code
 COPY --chown=user:user flare-download-observations/. /code
 EXPOSE 8080
-USER user
+USER user:user
 CMD ["npm", "start"]
