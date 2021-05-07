@@ -50,8 +50,11 @@ RUN chown -R user:user /home/user/bin/yq /home/user/bin/mc /home/user/flare/ \
     && chmod +x /home/user/bin/yq /home/user/bin/mc /home/user/flare/flare-container.sh
 
 # Start OpenWhisk Service
-WORKDIR /code
-COPY --chown=user:user flare-download-observations/. /code
+WORKDIR /openwhisk
+COPY --chown=user:user flare-download-observations/. /openwhisk
+COPY --chown=user:user commons/flare_pullworkdir.sh /openwhisk
+COPY --chown=user:user commons/flare_pushworkdir.sh /openwhisk
+COPY --chown=user:user commons/flare_triggernext.sh /openwhisk
 EXPOSE 8080
 USER user:user
 CMD ["npm", "start"]

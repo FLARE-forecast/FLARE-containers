@@ -32,7 +32,7 @@ RUN chmod +x /usr/bin/yq /usr/bin/mc /home/user/flare/flare-container.sh
 COPY /scripts/qdownloader.py /home/user/flare/scripts
 
 # Start OpenWhisk Service
-WORKDIR /code
-COPY . /code
+WORKDIR /openwhisk
+COPY . /openwhisk
 EXPOSE 8080
 CMD ["npm", "start"]

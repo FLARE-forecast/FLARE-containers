@@ -48,7 +48,7 @@ RUN chmod +x /usr/bin/yq /usr/bin/mc /home/user/flare/flare-container.sh
 ADD flare_lake_examples/ /home/user/flare/flare_lake_examples/
 
 # Start OpenWhisk Service
-WORKDIR /code
-COPY . /code
+WORKDIR /openwhisk
+COPY . /openwhisk
 EXPOSE 8080
 CMD ["npm", "start"]

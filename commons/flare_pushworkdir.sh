@@ -17,7 +17,7 @@ LAKE=$5
 
 TIMESTAMP=$(date +"%Y%m%d")
 mkdir -p ~/.ssh/
-# cp /code/id_rsa ~/.ssh/id_rsa
+# cp /openwhisk/id_rsa ~/.ssh/id_rsa
 # chmod 400 ~/.ssh/id_rsa
 
 tar -czvf ${LAKE}_${TIMESTAMP}_${CONTAINER}_workingdirectory.tar.gz -C ${DIRECTORY_CONTAINER_SHARED} ${CONTAINER}
