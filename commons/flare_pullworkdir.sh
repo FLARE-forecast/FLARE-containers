@@ -19,7 +19,7 @@ CONTAINER=$4
 LAKE=$5
 
 mkdir -p ~/.ssh/
-cp /openwhisk/id_rsa ~/.ssh/id_rsa
+cp /home/user/id_rsa ~/.ssh/id_rsa
 chmod 400 ~/.ssh/id_rsa
 
 mc alias set flare $s3_endpoint $s3_access_key $s3_secret_key
