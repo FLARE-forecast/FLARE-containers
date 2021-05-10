@@ -1,4 +1,4 @@
-FROM rocker/tidyverse:4.0.4
+FROM rocker/tidyverse:4.0.5
 
 # Set Environment Variables
 ENV TZ=America/New_York
@@ -24,9 +24,8 @@ RUN apt-get -yq update && \
         tzdata \
         vim \
         curl \
-        jq
-
-RUN wget -O /home/user/bin/yq https://github.com/mikefarah/yq/releases/download/3.4.1/yq_linux_amd64 && \
+        jq && \
+    wget -O /home/user/bin/yq https://github.com/mikefarah/yq/releases/download/3.4.1/yq_linux_amd64 && \
     wget -O /home/user/bin/mc https://dl.min.io/client/mc/release/linux-amd64/mc
 
 # Install Node
@@ -44,10 +43,10 @@ RUN npm install && \
 
 # Copy Files to Container
 RUN mkdir -p /home/user/flare/
-COPY --chown=user:user flare-download-observations/flare-container.sh /home/user/flare
-COPY --chown=user:user commons/commons.sh /home/user/flare
-RUN chown -R user:user /home/user/bin/yq /home/user/bin/mc /home/user/flare/ \
-    && chmod +x /home/user/bin/yq /home/user/bin/mc /home/user/flare/flare-container.sh
+COPY --chown=user:user flare-download-observations/flare-container.sh /home/user/flare/
+COPY --chown=user:user commons/commons.sh /home/user/flare/
+RUN chown -R user:user /home/user/bin/yq /home/user/bin/mc /home/user/flare/ && \
+    chmod +x /home/user/bin/yq /home/user/bin/mc /home/user/flare/flare-container.sh
 
 # Start OpenWhisk Service
 WORKDIR /openwhisk

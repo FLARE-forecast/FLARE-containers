@@ -27,7 +27,7 @@ noaa_model: NOAAGEFS_6hr
 lake_name_code: fcre
 lake_name: Falling Creek Reservoir
 ## Parameters for QueuedDownloader.py
-LogDirectory: "./"
+LogDirectory: "$USER"
 LogFileName: "noaa_downloads.log"
 MaxLogFileBytes: 1<<20
 BackupCount: 5

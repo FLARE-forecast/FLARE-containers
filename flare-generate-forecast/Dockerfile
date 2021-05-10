@@ -1,8 +1,17 @@
-FROM rocker/tidyverse:4.0.4
+FROM rocker/tidyverse:4.0.5
 
 # Set Environment Variables
 ENV TZ=America/New_York
 ARG DEBIAN_FRONTEND=noninteractive
+ENV PATH="/home/user/bin:${PATH}"
+
+# Setup FLARE User
+RUN groupadd --gid 5000 user \
+    && useradd --home-dir /home/user --create-home --uid 5000 \
+        --gid 5000 --shell /bin/sh --skel /dev/null user \
+    && mkdir -p /home/user/bin /home/user/flare/shared \
+    && chown -R user:user /home/user \
+    && chmod -R 777 /home/user/flare/shared
 
 # Install Dependencies
 RUN apt-get -yq update && \
@@ -25,11 +34,11 @@ RUN apt-get -yq update && \
     R -e "remotes::install_github('FLARE-forecast/noaaGEFSpoint@fc08f6272da5b7bdeec3b764050e490482d27240')" && \
     R -e "remotes::install_github('eco4cast/EFIstandards@085bcd5e39b6ffb0ef94ce1fa692ed5810ea6ae3')" && \
     R -e "remotes::install_github('FLARE-forecast/FLAREr@eac9c0a5c6201495d1978ab3415f2fc51d14d34a')" && \
-    wget -O /usr/bin/yq https://github.com/mikefarah/yq/releases/download/3.4.1/yq_linux_amd64 && \
-    wget -O /usr/bin/mc https://dl.min.io/client/mc/release/linux-amd64/mc
+    wget -O /home/user/bin/yq https://github.com/mikefarah/yq/releases/download/3.4.1/yq_linux_amd64 && \
+    wget -O /home/user/bin/mc https://dl.min.io/client/mc/release/linux-amd64/mc
 # Install Node
 ENV NODE_VERSION=14.16.1
-RUN curl -o- https://raw.githubusercontent.com/creationix/nvm/v0.38.0/install.sh | bash
+RUN su - user -c "curl -o- https://raw.githubusercontent.com/creationix/nvm/v0.38.0/install.sh | bash"
 ENV NVM_DIR=/home/user/.nvm
 RUN . "$NVM_DIR/nvm.sh" && nvm install ${NODE_VERSION}
 RUN . "$NVM_DIR/nvm.sh" && nvm use v${NODE_VERSION}
@@ -42,13 +51,18 @@ RUN npm install && \
 
 # Copy Files to Container
 RUN mkdir -p /home/user/flare/flare_lake_examples/
-COPY flare-container.sh /home/user/flare/
-RUN wget -O /home/user/flare/commons.sh https://raw.githubusercontent.com/FLARE-forecast/FLARE-containers/21.01.4/commons/commons.sh
-RUN chmod +x /usr/bin/yq /usr/bin/mc /home/user/flare/flare-container.sh
-ADD flare_lake_examples/ /home/user/flare/flare_lake_examples/
+COPY --chown=user:user flare-generate-forecast/flare-container.sh /home/user/flare/
+COPY --chown=user:user commons/commons.sh /home/user/flare/
+RUN chown -R user:user /home/user/bin/yq /home/user/bin/mc /home/user/flare/ && \
+    chmod +x /home/user/bin/yq /home/user/bin/mc /home/user/flare/flare-container.sh
+ADD flare-generate-forecast/flare_lake_examples/ /home/user/flare/flare_lake_examples/
 
 # Start OpenWhisk Service
 WORKDIR /openwhisk
-COPY . /openwhisk
+COPY --chown=user:user flare-generate-forecast/. /openwhisk
+COPY --chown=user:user commons/flare_pullworkdir.sh /openwhisk
+COPY --chown=user:user commons/flare_pushworkdir.sh /openwhisk
+COPY --chown=user:user commons/flare_triggernext.sh /openwhisk
 EXPOSE 8080
+USER user:user
 CMD ["npm", "start"]
