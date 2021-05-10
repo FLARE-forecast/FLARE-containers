@@ -19,6 +19,7 @@ RUN apt-get -yq update && \
     wget -O /home/user/bin/yq https://github.com/mikefarah/yq/releases/download/3.4.1/yq_linux_amd64 && \
     wget -O /home/user/bin/mc https://dl.min.io/client/mc/release/linux-amd64/mc && \
     pip3 install pycurl certifi PyYAML
+RUN chmod +x /home/user/bin/yq /home/user/bin/mc
 
 # Install Node
 ENV NODE_VERSION=14.16.1
@@ -34,19 +35,19 @@ RUN npm install && \
         express
 
 # Copy Files to Container
+USER user
 RUN mkdir -p /home/user/flare/scripts/
 COPY --chown=user:user flare-download-noaa/flare-container.sh /home/user/flare/
 COPY --chown=user:user commons/commons.sh /home/user/flare/
-RUN chown -R user:user /home/user/bin/yq /home/user/bin/mc /home/user/flare/ && \
-    chmod +x /home/user/bin/yq /home/user/bin/mc /home/user/flare/flare-container.sh
+RUN chmod +x /home/user/flare/flare-container.sh
 COPY --chown=user:user flare-download-noaa/scripts/qdownloader.py /home/user/flare/scripts
 
 # Start OpenWhisk Service
+RUN mkdir /home/user/openwhisk
 WORKDIR /home/user/openwhisk
 COPY --chown=user:user flare-download-noaa/. /home/user/openwhisk
 COPY --chown=user:user commons/flare_pullworkdir.sh /home/user/openwhisk
 COPY --chown=user:user commons/flare_pushworkdir.sh /home/user/openwhisk
 COPY --chown=user:user commons/flare_triggernext.sh /home/user/openwhisk
 EXPOSE 8080
-USER user:user
 CMD ["npm", "start"]
