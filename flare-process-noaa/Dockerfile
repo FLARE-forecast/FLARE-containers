@@ -43,11 +43,11 @@ RUN chown -R user:user /home/user/bin/yq /home/user/bin/mc /home/user/flare/ && 
 COPY --chown=user:user flare-process-noaa/scripts/launch_download_downscale.R /home/user/flare/scripts/
 
 # Start OpenWhisk Service
-WORKDIR /openwhisk
-COPY --chown=user:user flare-process-noaa/. /openwhisk
-COPY --chown=user:user commons/flare_pullworkdir.sh /openwhisk
-COPY --chown=user:user commons/flare_pushworkdir.sh /openwhisk
-COPY --chown=user:user commons/flare_triggernext.sh /openwhisk
+WORKDIR /home/user/openwhisk
+COPY --chown=user:user flare-process-noaa/. /home/user/openwhisk
+COPY --chown=user:user commons/flare_pullworkdir.sh /home/user/openwhisk
+COPY --chown=user:user commons/flare_pushworkdir.sh /home/user/openwhisk
+COPY --chown=user:user commons/flare_triggernext.sh /home/user/openwhisk
 EXPOSE 8080
 USER user:user
 CMD ["npm", "start"]

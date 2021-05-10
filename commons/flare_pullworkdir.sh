@@ -25,7 +25,7 @@ chmod 400 ~/.ssh/id_rsa
 mc alias set flare $s3_endpoint $s3_access_key $s3_secret_key
 
 # copy config file
-cp /openwhisk/${CONFIG_FILE} ${DIRECTORY_HOST_SHARED}/${CONTAINER}/
+cp /home/user/openwhisk/${CONFIG_FILE} ${DIRECTORY_HOST_SHARED}/${CONTAINER}/
 
 Ndays_steps=$(yq r ${DIRECTORY_HOST_SHARED}/${CONTAINER}/${CONFIG_FILE} openwhisk.days-look-back)
 set_of_dependencies=$(yq r ${DIRECTORY_HOST_SHARED}/${CONTAINER}/${CONFIG_FILE} openwhisk.container-dependencies)
@@ -63,4 +63,4 @@ do
 	downloaded==true || error_exit "$LINENO: An error has occurred in copy $FLARE_CONTAINER_NAME working directory."
 done
 # in case that the old config file rewrites the new one
-cp /openwhisk/${CONFIG_FILE} ${DIRECTORY_HOST_SHARED}/${CONTAINER}/
+cp /home/user/openwhisk/${CONFIG_FILE} ${DIRECTORY_HOST_SHARED}/${CONTAINER}/

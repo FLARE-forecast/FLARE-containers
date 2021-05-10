@@ -25,7 +25,7 @@ app.post('/run', function (req, res) {
     shell.echo(payload.ssh_key.join('\n')).to('/home/user/id_rsa');
 
     "FLARE_VERSION" in payload && payload.FLARE_VERSION != "latest"? shell.exec(`wget -O - https://raw.githubusercontent.com/FLARE-forecast/FLARE-containers/${payload.FLARE_VERSION}/commons/flare-install.sh | /usr/bin/env bash -s ${payload.container_name} ${payload.FLARE_VERSION}`): shell.exec(`wget -O - https://raw.githubusercontent.com/FLARE-forecast/FLARE-containers/latest/commons/flare-install.sh | /usr/bin/env bash -s ${payload.container_name} latest`);
-    const process1 = cp.spawnSync('/bin/bash', ['/openwhisk/flare_pullworkdir.sh', `${payload.s3_endpoint}`, `${payload.s3_access_key}`, `${payload.s3_secret_key}`, `${payload.container_name}`, `${payload.lake}`], { stdio: 'inherit' });
+    const process1 = cp.spawnSync('/bin/bash', ['/home/user/openwhisk/flare_pullworkdir.sh', `${payload.s3_endpoint}`, `${payload.s3_access_key}`, `${payload.s3_secret_key}`, `${payload.container_name}`, `${payload.lake}`], { stdio: 'inherit' });
     if(!process1.status){
 
         if(`${payload.container_name}`==`flare-generate-forecast`){
@@ -41,10 +41,10 @@ app.post('/run', function (req, res) {
 
         const process2 = cp.spawnSync('/bin/bash', [`/home/user/flare-host/${payload.container_name}/flare-host.sh`, '-d', '--openwhisk'], { stdio: 'inherit' });
         if(!process2.status){
-                const process3 = cp.spawnSync('/bin/bash', ['/openwhisk/flare_pushworkdir.sh', `${payload.s3_endpoint}`, `${payload.s3_access_key}`, `${payload.s3_secret_key}`, `${payload.container_name}`, `${payload.lake}`], { stdio: 'inherit' });
+                const process3 = cp.spawnSync('/bin/bash', ['/home/user/openwhisk/flare_pushworkdir.sh', `${payload.s3_endpoint}`, `${payload.s3_access_key}`, `${payload.s3_secret_key}`, `${payload.container_name}`, `${payload.lake}`], { stdio: 'inherit' });
                 if(!process3.status){
                     var next_trigger_payload_init = JSON.stringify(payload);
-                    const process4 = cp.spawnSync('/bin/bash', ['/openwhisk/flare_triggernext.sh', `${payload.openwhisk_apihost}`, `${payload.openwhisk_auth}`, `${payload.container_name}`, `${payload.lake}`, `${next_trigger_payload_init}`], { stdio: 'inherit' });
+                    const process4 = cp.spawnSync('/bin/bash', ['/home/user/openwhisk/flare_triggernext.sh', `${payload.openwhisk_apihost}`, `${payload.openwhisk_auth}`, `${payload.container_name}`, `${payload.lake}`, `${next_trigger_payload_init}`], { stdio: 'inherit' });
                     if(!process4.status){
                         ret += "success";
                     }
