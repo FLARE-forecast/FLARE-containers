@@ -118,7 +118,7 @@ FORECAST_LOCATION=$(yq r ${DIRECTORY_CONTAINER_SHARED}/${CONTAINER_NAME}/${CONFI
 GIT_REMOTE_SSHKEYPRIVATE_FILE=$(awk -F/ '{print $NF}' <<< ${GIT_REMOTE_SSHKEYPRIVATE})
 
 # Setup SSH
-mkdir -p /home/user/.ssh
+mkdir -p $HOME/.ssh
 [[ -e ${GIT_REMOTE_SSHKEYPRIVATE_FILE} ]] && cp -u ${DIRECTORY_CONTAINER_SHARED}/${CONTAINER_NAME}/${GIT_REMOTE_SSHKEYPRIVATE_FILE} /home/user/.ssh/id_rsa
 
 # Setup Git
@@ -127,7 +127,8 @@ mkdir -p /home/user/.ssh
 
 # Transfer Config Files
 mkdir -p ${FORECAST_LOCATION}
-cp -rn /home/user/flare/${LAKES_DIRECTORY}/${LAKE_NAME_CODE}/glm/configuration_files/ ${FORECAST_LOCATION}/
+cp -rn $HOME/flare/${LAKES_DIRECTORY}/${LAKE_NAME_CODE}/glm/configuration_files/ ${FORECAST_LOCATION}/
+chmod -R 777 ${FORECAST_LOCATION}/configuration_files
 
 # Run R Script
 # Pass `${CONTAINER_NAME}` Argument to the R Script
