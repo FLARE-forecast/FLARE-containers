@@ -2,10 +2,10 @@ version: "2"
 
 services:
   web:
-    build: .
+    build: 
+          context: ../
+          dockerfile: flare-generate-forecast/Dockerfile
     command: npm run dev
-    volumes:
-      - .:/home/user/openwhisk
     ports:
       - "8080:8080"
       - "5858:5858"

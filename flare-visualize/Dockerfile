@@ -40,10 +40,6 @@ RUN . "$NVM_DIR/nvm.sh" && nvm install ${NODE_VERSION}
 RUN . "$NVM_DIR/nvm.sh" && nvm use v${NODE_VERSION}
 RUN . "$NVM_DIR/nvm.sh" && nvm alias default v${NODE_VERSION}
 ENV PATH="/home/user/.nvm/versions/node/v${NODE_VERSION}/bin/:${PATH}"
-RUN npm install && \
-    npm install shelljs \
-        nodemon \
-        express
 
 # Download Dependencies
 USER user
@@ -62,6 +58,11 @@ ADD --chown=user:user flare-visualize/flare_lake_examples/ /home/user/flare/flar
 # Start OpenWhisk Service
 RUN mkdir /home/user/openwhisk/
 WORKDIR /home/user/openwhisk/
+RUN npm install && \
+    npm install shelljs \
+        nodemon \
+        express
+RUN mv /home/user/openwhisk/node_modules /home/user/node_modules
 COPY --chown=user:user flare-visualize/. /home/user/openwhisk/
 COPY --chown=user:user commons/flare_pullworkdir.sh /home/user/openwhisk/
 COPY --chown=user:user commons/flare_pushworkdir.sh /home/user/openwhisk/
