@@ -16,7 +16,7 @@ CONTAINER=$4
 LAKE=$5
 
 TIMESTAMP=$(date +"%Y%m%d")
-mkdir -p ~/.ssh/
+# mkdir -p ~/.ssh/
 
 cd /home/user
 tar -czvf ${LAKE}_${TIMESTAMP}_${CONTAINER}_workingdirectory.tar.gz -C ${DIRECTORY_CONTAINER_SHARED} ${CONTAINER}
