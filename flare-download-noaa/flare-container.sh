@@ -152,7 +152,7 @@ do
 
   for name in tmp2m pressfc rh2m dlwrfsfc dswrfsfc apcpsfc ugrd10m vgrd10m
   do
-    COMPLETED_CHECK=false
+    # COMPLETED_CHECK=false
     FILE=${CHECK_FOLDER}/gefs_pgrb2ap5_all_${time}z.ascii?${name}[0:30][0:64][255][160]
     # Check if file is exist.
     if [[ ! -f "${FILE}" ]]; then
@@ -167,9 +167,9 @@ do
     #     COMPLETED_CHECK=true
     #   fi
     # done < "$FILE"
-    if [[ "${COMPLETED_CHECK}" = false ]];then
-      info "${FILE} is not completed."
-      break
+    # if [[ "${COMPLETED_CHECK}" = false ]];then
+    #   info "${FILE} is not completed."
+    #   break
     fi
   done
 done
