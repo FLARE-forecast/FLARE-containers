@@ -161,12 +161,12 @@ do
       break
     fi
     # Check if file is completed.
-    while IFS= read -r line
-    do
-      if [[ $line = "lon, [1]" ]];then
-        COMPLETED_CHECK=true
-      fi
-    done < "$FILE"
+    # while IFS= read -r line
+    # do
+    #   if [[ $line = "lon, [1]" ]];then
+    #     COMPLETED_CHECK=true
+    #   fi
+    # done < "$FILE"
     if [[ "${COMPLETED_CHECK}" = false ]];then
       info "${FILE} is not completed."
       break
