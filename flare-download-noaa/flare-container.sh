@@ -170,7 +170,7 @@ do
     # if [[ "${COMPLETED_CHECK}" = false ]];then
     #   info "${FILE} is not completed."
     #   break
-    fi
+    # fi
   done
 done
 
