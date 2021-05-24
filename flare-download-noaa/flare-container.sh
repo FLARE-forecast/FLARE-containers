@@ -164,19 +164,10 @@ do
     fi
     # Check if file is completed.
     LINE=$(tail ${FILE} -n 2 | head -n 1)
-    if [[ $line = "lon, [1]" ]];then
+    if [[ $LINE = "lon, [1]" ]];then
+      info "$FILE is complete."
       COMPLETED_CHECK=true
     fi
-    # while IFS= read -r line
-    # do
-    #   if [[ $line = "lon, [1]" ]];then
-    #     COMPLETED_CHECK=true
-    #   fi
-    # done < "$FILE"
-    # if [[ "${COMPLETED_CHECK}" = false ]];then
-    #   info "${FILE} is not completed."
-    #   break
-    # fi
   done
 done
 
