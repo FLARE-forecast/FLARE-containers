@@ -26,6 +26,8 @@ number-of-days: 4
 noaa_model: NOAAGEFS_6hr
 lake_name_code: fcre
 lake_name: Falling Creek Reservoir
+lake_lat: 255
+lake_lon: 160
 ## Parameters for QueuedDownloader.py
 LogDirectory: "./"
 LogFileName: "noaa_downloads.log"
