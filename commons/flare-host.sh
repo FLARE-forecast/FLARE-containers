@@ -69,6 +69,7 @@ __b3bp_err_report() {
 
 # debug mode
 if [[ "${arg_d:?}" = "1" ]]; then
+  echo "Running in Debug Mode..."
   set -o xtrace
   PS4='+(${BASH_SOURCE}:${LINENO}): ${FUNCNAME[0]:+${FUNCNAME[0]}(): }'
   LOG_LEVEL="7"
@@ -109,4 +110,5 @@ GIT_REMOTE_SSHKEYPRIVATE=$(yq r ${DIRECTORY_HOST_SHARED}/${CONTAINER_NAME}/${CON
 
 # Run Container Script in Manual or OpenWhisk Mode
 ([[ "${arg_o:?}" = "1" ]] && chmod -R 777 ${DIRECTORY_CONTAINER} && cp -r ${DIRECTORY_HOST_SHARED} ${DIRECTORY_CONTAINER} && ${DIRECTORY_CONTAINER}/${CONTAINER_SCRIPT} -d ${CONTAINER_NAME}) \
+  || ([[ "${arg_d:?}" = "1" ]] && docker run --rm -v ${DIRECTORY_HOST_SHARED}:${DIRECTORY_CONTAINER_SHARED} ${DOCKERHUB_ID}/${CONTAINER_NAME}:${CONTAINER_VERSION} ${DIRECTORY_CONTAINER}/${CONTAINER_SCRIPT} -d ${CONTAINER_NAME}) \
   || docker run --rm -v ${DIRECTORY_HOST_SHARED}:${DIRECTORY_CONTAINER_SHARED} ${DOCKERHUB_ID}/${CONTAINER_NAME}:${CONTAINER_VERSION} ${DIRECTORY_CONTAINER}/${CONTAINER_SCRIPT} ${CONTAINER_NAME}
