@@ -24,7 +24,9 @@ container:
 ## Container Paths
 flare_path: /home/user/flare
 flare_shared_path: /home/user/flare/shared
-read_from_path: /home/user/flare/shared/flare-download-noaa/NOAAGEFS_6hr/fcre # Path to the downloaded NOAA files. To directly download from NOMADS server, leave the path blank.
+read_from_path: /home/user/flare/shared/flare-download-noaa # Path to the downloaded NOAA files. To directly download from NOMADS server, leave the path blank.
+noaa_model: NOAAGEFS_6hr
+
 ## Parameters
 downscale: TRUE
 run_parallel: TRUE
