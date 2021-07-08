@@ -101,9 +101,14 @@ fi
 
 ### User-defined and Runtime
 ##############################################################################
+# Choose the version from FLARE_VERSION
+if [[ -z "${FLARE_VERSION}" ]]; then
+  CONTAINER_VERSION="latest"
+else
+  CONTAINER_VERSION=${FLARE_VERSION}
+fi
 
 CONTAINER_NAME=$(basename ${__dir})
-CONTAINER_VERSION=$(yq r ${DIRECTORY_HOST_SHARED}/${CONTAINER_NAME}/${CONFIG_FILE} container.version)
 GIT_REMOTE_SSHKEYPRIVATE=$(yq r ${DIRECTORY_HOST_SHARED}/${CONTAINER_NAME}/${CONFIG_FILE} git.remote.ssh-key-private)
 
 [[ -e ${GIT_REMOTE_SSHKEYPRIVATE} ]] && cp -u ${GIT_REMOTE_SSHKEYPRIVATE} ${DIRECTORY_HOST_SHARED}/${CONTAINER_NAME}
