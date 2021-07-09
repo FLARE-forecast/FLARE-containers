@@ -1,0 +1,6 @@
+git:
+  repository: FLARE-forecast/FCRE-data
+  branch: fcre-metstation-data
+  update-period: 360 # Minutes between updates
+  update-grace-time: 20 # Minutes
+healthchecksio-url: https://hc-ping.com/da9a7a40-1311-47d0-92fe-e7bd5d500b83
