@@ -123,13 +123,13 @@ mkdir -p /home/user/.ssh
 NUMBER_OF_DAYS=$(yq r ${DIRECTORY_CONTAINER_SHARED}/${CONTAINER_NAME}/${CONFIG_FILE} number-of-days)
 NOAA_MODEL=$(yq r ${DIRECTORY_CONTAINER_SHARED}/${CONTAINER_NAME}/${CONFIG_FILE} noaa_model)
 LAKE_NAME_CODE=$(yq r ${DIRECTORY_CONTAINER_SHARED}/${CONTAINER_NAME}/${CONFIG_FILE} lake_name_code)
-LAT=$(yq r ${DIRECTORY_CONTAINER_SHARED}/${CONTAINER_NAME}/${CONFIG_FILE} lake_lat)
-LON=$(yq r ${DIRECTORY_CONTAINER_SHARED}/${CONTAINER_NAME}/${CONFIG_FILE} lake_lon)
+X_COORDINATE=$(yq r ${DIRECTORY_CONTAINER_SHARED}/${CONTAINER_NAME}/${CONFIG_FILE} lake-x-coordinate)
+Y_COORDINATE=$(yq r ${DIRECTORY_CONTAINER_SHARED}/${CONTAINER_NAME}/${CONFIG_FILE} lake-y-coordinate)
 for (( i=$NUMBER_OF_DAYS-1; i>=0; i-- ))
 do
   PYDATE=$(date --date="-${i} day" +%Y%m%d)
   info "Start to download ${PYDATE} data"
-  python3 ${DIRECTORY_CONTAINER}/${SCRIPTS_DIRECTORY}/${SCRIPT} ${DIRECTORY_CONTAINER_SHARED}/${CONTAINER_NAME}/${NOAA_MODEL}/${LAKE_NAME_CODE} ${PYDATE} ${LAT} ${LON}
+  python3 ${DIRECTORY_CONTAINER}/${SCRIPTS_DIRECTORY}/${SCRIPT} ${DIRECTORY_CONTAINER_SHARED}/${CONTAINER_NAME}/${NOAA_MODEL}/${LAKE_NAME_CODE} ${PYDATE} ${X_COORDINATE} ${Y_COORDINATE}
 done
 
 # Check data has been download sucessfully and trigger flare-process-noaa
@@ -155,7 +155,7 @@ do
   for name in tmp2m pressfc rh2m dlwrfsfc dswrfsfc apcpsfc ugrd10m vgrd10m
   do
     # COMPLETED_CHECK=false
-    FILE=${CHECK_FOLDER}/gefs_pgrb2ap5_all_${time}z.ascii?${name}[0:30][0:64][${LAT}][${LON}]
+    FILE=${CHECK_FOLDER}/gefs_pgrb2ap5_all_${time}z.ascii?${name}[0:30][0:64][${X_COORDINATE}][${Y_COORDINATE}]
     # Check if file is exist.
     if [[ ! -f "${FILE}" ]]; then
       info "$FILE does not exist."
@@ -164,7 +164,7 @@ do
     fi
     # Check if file is completed.
     LINE=$(tail ${FILE} -n 2 | head -n 1)
-    if [[ $LINE = "lon, [1]" ]];then
+    if [[ $LINE = "lon, [1]" ]]; then
       info "$FILE is complete."
       COMPLETED_CHECK=true
     fi
