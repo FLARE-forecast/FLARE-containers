@@ -3,7 +3,7 @@ name: sunp-generate-graphs
 # Controls when the action will run.
 on:
   schedule:
-    - cron:  '* * * * *'
+    - cron:  '0 */6 * * *'
 
 
 jobs: 
