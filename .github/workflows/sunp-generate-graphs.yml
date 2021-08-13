@@ -38,7 +38,7 @@ jobs:
           git add sunpMetDataFigures_$(date '+%Y-%m-%d').pdf sunpWaterQualityDataFigures_$(date '+%Y-%m-%d').pdf
           git commit -m "sunp-generate-graphs-$(date '+%Y-%m-%d')" -a
       
-      - name: Checkout with sunp-generate-graphs branch
+      - name: Checkout with sunp-graphs branch
         uses: actions/checkout@v2
         with:
           repository: FLARE-forecast/SUNP-data
