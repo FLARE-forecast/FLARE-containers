@@ -43,7 +43,7 @@ jobs:
         with:
           repository: FLARE-forecast/SUNP-data
           ref: sunp-graphs
-          fetch-depth: 1
+          fetch-depth: 0
       - name: Push changes
         uses: ad-m/github-push-action@master
         with:
