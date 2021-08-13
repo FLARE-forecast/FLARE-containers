@@ -48,4 +48,5 @@ jobs:
         uses: ad-m/github-push-action@master
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
+          repository: FLARE-forecast/SUNP-data
           branch: sunp-graphs
