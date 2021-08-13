@@ -35,8 +35,15 @@ jobs:
         run: |
           git config --local user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git config --local user.name "github-actions[bot]"
-          git add --all
-          git commit -m "sunp-generate-graphs" -a
+          git add sunpMetDataFigures_$(date '+%Y-%m-%d').pdf sunpWaterQualityDataFigures_$(date '+%Y-%m-%d').pdf
+          git commit -m "sunp-generate-graphs-$(date '+%Y-%m-%d')" -a
+      
+      - name: Checkout with sunp-generate-graphs branch
+        uses: actions/checkout@v2
+        with:
+          repository: FLARE-forecast/SUNP-data
+          ref: sunp-graphs
+          fetch-depth: 1
       - name: Push changes
         uses: ad-m/github-push-action@master
         with:
