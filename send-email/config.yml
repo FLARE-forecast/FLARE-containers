@@ -1,0 +1,15 @@
+gmail:
+    username: "SENDER_EMAIL_ACCOUNT"
+    password-hash: "SENDER_EMAIL_PASSWORD"
+    from: "SENDER_NAME"
+email:
+    subject: "XXXX"
+    body: "XXXX"
+    attachments_github:
+      - https://github.com/FLARE-forecast/SUNP-data/raw/sunp-graphs/sunpMetDataFigures_
+      - https://github.com/FLARE-forecast/SUNP-data/raw/sunp-graphs/sunpWaterQualityDataFigures_
+    attachments_local:
+      - /home/ubuntu/test/local.txt
+    recepients:
+      - XXXX@gmail.com
+      - XXXX@ufl.edu
