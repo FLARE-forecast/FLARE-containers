@@ -36,13 +36,13 @@ while read line; do
 done < attach_command.txt
 
 # Send the email
-echo "CONTENT" | s-nail -v -s $SUBJECT\
+echo "CONTENT" | s-nail -:/ -v -s $SUBJECT\
 $ATTACHMENTS_LIST \
 -S smtp-use-starttls \
 -S ssl-verify=ignore \
 -S smtp-auth=login \
--S smtp=smtp://smtp.gmail.com:587 \
--S from=$SENDER \
+-S mta=smtp://smtp.gmail.com:587 \
+-S from="$USERNAME($SENDER)" \
 -S smtp-auth-user=$USERNAME \
 -S smtp-auth-password=$PASSWORD \
 -S ssl-verify=ignore \
