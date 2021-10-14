@@ -1,3 +1,25 @@
+## General Settings
+git:
+  remote:
+    server: github.com
+    branch: master
+    ssh-key-private:
+    user-name: 
+    user-email: 
+## Container Settings
+container:
+  name: send-email
+  version: latest
+  working-directory:
+    pre-run-pull: FALSE
+    post-run-push: FALSE
+    git:
+      remote:
+        server: 192.168.20.20
+        port:
+        repository: FLARE-forecast/test-data
+        branch: master
+        directory:
 gmail:
     username: "SENDER_EMAIL_ACCOUNT"
     password-hash: "SENDER_EMAIL_PASSWORD"
