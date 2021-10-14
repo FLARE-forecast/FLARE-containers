@@ -103,16 +103,16 @@ fi
 ##############################################################################
 
 #Set Variables
-EMAIL_NAME=${1}
+CONTAINER_NAME=${1}
 DATE=$(date +%Y-%m-%d)
-USERNAME=$(yq e '.gmail.username' ./shared/send-email/flare-config.yml)
-PASSWORD=$(yq e '.gmail.password-hash' ./shared/send-email/flare-config.yml )
-SENDER=$(yq e '.gmail.from' ./shared/send-email/flare-config.yml )
-SUBJECT=$(yq e '.email.subject' ./shared/send-email/flare-config.yml )
-CONTENT=$(yq e '.email.body' ./shared/send-email/flare-config.yml )
-RECEIVER=$(yq e '.email.recepients' ./shared/send-email/flare-config.yml )
-ATTACHMENT_GITHUB=$(yq e '.email.attachments_github[]' ./shared/send-email/flare-config.yml )
-ATTACHMENT_LOCAL=$(yq e '.email.attachments_local[]' ./shared/send-email/flare-config.yml )
+USERNAME=$(yq e '.gmail.username' ${DIRECTORY_CONTAINER_SHARED}/${CONTAINER_NAME}/${CONFIG_FILE} )
+PASSWORD=$(yq e '.gmail.password-hash' ${DIRECTORY_CONTAINER_SHARED}/${CONTAINER_NAME}/${CONFIG_FILE} )
+SENDER=$(yq e '.gmail.from' ${DIRECTORY_CONTAINER_SHARED}/${CONTAINER_NAME}/${CONFIG_FILE} )
+SUBJECT=$(yq e '.email.subject' ${DIRECTORY_CONTAINER_SHARED}/${CONTAINER_NAME}/${CONFIG_FILE} )
+CONTENT=$(yq e '.email.body' ${DIRECTORY_CONTAINER_SHARED}/${CONTAINER_NAME}/${CONFIG_FILE} )
+RECEIVER=$(yq e '.email.recepients' ${DIRECTORY_CONTAINER_SHARED}/${CONTAINER_NAME}/${CONFIG_FILE} )
+ATTACHMENT_GITHUB=$(yq e '.email.attachments_github[]' ${DIRECTORY_CONTAINER_SHARED}/${CONTAINER_NAME}/${CONFIG_FILE} )
+ATTACHMENT_LOCAL=$(yq e '.email.attachments_local[]' ${DIRECTORY_CONTAINER_SHARED}/${CONTAINER_NAME}/${CONFIG_FILE} )
 ATTACHMENTS_LIST=${ATTACHMENTS_LIST:-""}
 
 # Add the date into file path
@@ -159,5 +159,4 @@ $ATTACHMENTS_LIST \
 $RECEIVER
 
 #Remove useless files
-rm attachments_list.txt attach_command.txt tmp_date.txt tmp.txt
-rm -r $DATE
+rm -r $DATE attach*.txt tmp*.txt
