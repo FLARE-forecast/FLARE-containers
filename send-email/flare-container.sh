@@ -104,6 +104,9 @@ fi
 
 #Set Variables
 CONTAINER_NAME=${1}
+if [ $# -eq 2 ]; then
+  CONFIG_FILE="${2}.yml"
+fi
 DATE=$(date +%Y-%m-%d)
 USERNAME=$(yq e '.gmail.username' ${DIRECTORY_CONTAINER_SHARED}/${CONTAINER_NAME}/${CONFIG_FILE} )
 PASSWORD=$(yq e '.gmail.password-hash' ${DIRECTORY_CONTAINER_SHARED}/${CONTAINER_NAME}/${CONFIG_FILE} )
@@ -159,4 +162,4 @@ $ATTACHMENTS_LIST \
 $RECEIVER
 
 #Remove useless files
-rm -r $DATE attach*.txt tmp*.txt
+rm -r $DATE *.txt
