@@ -4,6 +4,10 @@ The purpose of this project is to run FLARE forecast with a docker container. It
 
 ## Run Docker Container
 
+### Quick Start
+
+Set the environment variables ans run the following command:
+
 ```bash
 docker run -it --env FORECAST_CODE='forecast_code_here' \
                --env FUNCTION='function_here' \
@@ -20,8 +24,28 @@ For authorized CIBR users to run FCRE forecasts:
 
 ```bash
 docker run -it --env FORECAST_CODE='https://github.com/FLARE-forecast/FCRE-forecast-code' \
-               --env FUNCTION='01_generate_targets.R' --env AWS_DEFAULT_REGION='s3' \
+               --env FUNCTION='01_generate_targets.R' \
+               --env AWS_DEFAULT_REGION='s3' \
                --env AWS_S3_ENDPOINT='flare-forecast.org' \
+               --env AWS_ACCESS_KEY_ID='s3_access_key_here' \
+               --env AWS_SECRET_ACCESS_KEY='s3_secret_key_here' \
+               --rm flareforecast/flare
+```
+
+### Run with Shared Volume and without S3
+
+If `use_s3: FALSE` in `configure_run.yml`, the workflow stores the outputs locally in the container instead of writing them to S3 storage.
+
+**NOTE:** For CIBR project, it still needs to access the S3 storage to read NOAA forecasts. So, S3 credentials are still needed for running the container.
+
+To access the container output, we can mount it as a shared volume on the host. For instance, it will be store in `~/forecast-code` in the following example:
+
+```bash
+docker run -it -v ~:/root/flare-containers \
+               --env FORECAST_CODE='forecast_code_here' \
+               --env FUNCTION='function_here' \
+               --env AWS_DEFAULT_REGION='s3_default_region_here' \
+               --env AWS_S3_ENDPOINT='s3_endpoint_here' \
                --env AWS_ACCESS_KEY_ID='s3_access_key_here' \
                --env AWS_SECRET_ACCESS_KEY='s3_secret_key_here' \
                --rm flareforecast/flare
