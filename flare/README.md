@@ -10,6 +10,7 @@ Set the environment variables ans run the following command:
 
 ```bash
 docker run -it --env FORECAST_CODE='forecast_code_here' \
+               --env CONFIG_SET="config_set_here" \
                --env FUNCTION='function_here' \
                --env AWS_DEFAULT_REGION='s3_default_region_here' \
                --env AWS_S3_ENDPOINT='s3_endpoint_here' \
@@ -24,7 +25,8 @@ For authorized CIBR users to run FCRE forecasts:
 
 ```bash
 docker run -it --env FORECAST_CODE='https://github.com/FLARE-forecast/FCRE-forecast-code' \
-               --env FUNCTION='01_generate_targets.R' \
+               --env CONFIG_SET='default'
+               --env FUNCTION='0' \
                --env AWS_DEFAULT_REGION='s3' \
                --env AWS_S3_ENDPOINT='flare-forecast.org' \
                --env AWS_ACCESS_KEY_ID='s3_access_key_here' \
@@ -43,6 +45,7 @@ To access the container output, we can mount it as a shared volume on the host. 
 ```bash
 docker run -it -v ~:/root/flare-containers \
                --env FORECAST_CODE='forecast_code_here' \
+               --env CONFIG_SET="config_set_here" \
                --env FUNCTION='function_here' \
                --env AWS_DEFAULT_REGION='s3_default_region_here' \
                --env AWS_S3_ENDPOINT='s3_endpoint_here' \
@@ -60,14 +63,19 @@ Specifies the forecast codebase Git repository. For instance, for CIBR project:
 `https://github.com/FLARE-forecast/FCRE-forecast-code`: For FCRE  
 `https://github.com/FLARE-forecast/SUNP-forecast-code`: For SUNP
 
+#### CONFIG_SET
+
+Specifies the configuration set to be used for the forecast. The default value is `default` which loads the scripts from `workflows/default` and the configurations from `configurations/default` directory. Modified code and configuration set can be placed in new directories under `workflows` and `configuration` respetively.
+
 #### FUNCTION
 
 Based on different steps in a forecast workflow, it can be one of the following:
 
-`01_generate_targets.R`: Downloads the required files to run forecast  
-`02_run_inflow_forecast.R`: Runs inflow forecast  
-`03_run_flarer_forecast.R`: Runs FLARE forecast  
-`04_visualize.R`: Visualizes the output of the FLARE forecast into graphs
+`0`: Runs the whole workflow for a full forecast
+`1`: Downloads the required files to run forecast  
+`2`: Runs inflow forecast  
+`3`: Runs FLARE forecast  
+`4`: Visualizes the output of the FLARE forecast into graphs
 
 #### AWS_DEFAULT_REGION
 
