@@ -106,7 +106,7 @@ fi
 ### Run-time and User-defined
 ##############################################################################
 
-git clone $FORECAST_CODE forecast-code
-cd forecast-code
+[[ ! -d 'flare-container/forecast-code' ]] && git clone $FORECAST_CODE flare-container/forecast-code
+cd flare-container/forecast-code
 echo "Sys.setenv('AWS_DEFAULT_REGION' = '$AWS_DEFAULT_REGION', 'AWS_S3_ENDPOINT' = '$AWS_S3_ENDPOINT', 'AWS_ACCESS_KEY_ID' = '$AWS_ACCESS_KEY_ID', 'AWS_SECRET_ACCESS_KEY' = '$AWS_SECRET_ACCESS_KEY')" >> .Rprofile
-Rscript $FUNCTION
+Rscript main_workflow.R $CONFIG_SET $FUNCTION

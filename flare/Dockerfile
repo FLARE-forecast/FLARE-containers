@@ -18,7 +18,7 @@ RUN apt-get -yq update && \
     R -e "install.packages(c('yaml', 'remotes', 'imputeTS', 'rMR', 'here', 'aws.s3', 'libxt6'), repos = 'https://cloud.r-project.org')" && \
     R -e "remotes::install_github('FLARE-forecast/Rnoaa4cast@7e401340b004910ff328dec7d4ec6ef0cbcc6863')" && \
     R -e "remotes::install_github('FLARE-forecast/GLM3r@768cdef2bcd2b04feec912eeacb175d67ff88598')" && \
-    R -e "remotes::install_github('FLARE-forecast/FLAREr@1065edd6b26f9114996919ebb662b3a7633984b2')"
+    R -e "remotes::install_github('FLARE-forecast/FLAREr@84e5615407e9ea6c0d15f96b0a84cdc537791205')"
 
 # Install Node
 #ENV NODE_VERSION=16.13.2
@@ -33,12 +33,11 @@ RUN apt-get -yq update && \
 #RUN npm --version
 
 # Copy Files to Container
-RUN mkdir -p /root/flare/
-COPY source.sh /root/flare/
-COPY flare-run-container.sh /root/flare/
-RUN chmod +x /root/flare/source.sh /root/flare/flare-run-container.sh
+COPY source.sh /root/
+COPY flare-run-container.sh /root/
+RUN chmod +x /root/source.sh /root/flare-run-container.sh
 
 # Start Container
-WORKDIR /root/flare
+WORKDIR /root/
 CMD "./flare-run-container.sh"
 
