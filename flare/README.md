@@ -105,6 +105,7 @@ To make sure your S3 config works fine, you can try it with the following R scri
 #Sys.setenv('AWS_DEFAULT_REGION' = '', "AWS_S3_ENDPOINT" = "ec2-35-85-48-109.us-west-2.compute.amazonaws.com", 'AWS_ACCESS_KEY_ID' = 'access_key_id', 'AWS_SECRET_ACCESS_KEY' = 'secret_key')
 #Sys.setenv('AWS_DEFAULT_REGION' = '', "AWS_S3_ENDPOINT" = "tacc.jetstream-cloud.org:8080", 'AWS_ACCESS_KEY_ID' = 'access_key_id', 'AWS_SECRET_ACCESS_KEY' = 'secret_key')
 
+install.packages("aws.s3")
 library("aws.s3")
 
 # To enforce HTTPS, should be set to TRUE
