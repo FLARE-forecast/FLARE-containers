@@ -34,7 +34,7 @@ docker run -it --env FORECAST_CODE='https://github.com/FLARE-forecast/FCRE-forec
                --rm flareforecast/flare
 ```
 
-### Run with Shared Volume and without S3
+### Run without S3 with Shared Volume
 
 If `use_s3: FALSE` in `configure_run.yml`, the workflow stores the outputs locally in the container instead of writing them to S3 storage.
 
@@ -92,6 +92,32 @@ Set based on S3 cloud access information. For CIBR project, ask Dr. Quinn Thomas
 #### AWS_SECRET_ACCESS_KEY
 
 Set based on S3 cloud access information. For CIBR project, ask Dr. Quinn Thomas.
+
+### How to Set and Test S3 Configurations
+
+To make sure your S3 config works fine, you can try it with the following R script:
+
+```
+# 'AWS_DEFAULT_REGION' can be left NULL. The S3 URL should be set as 'AWS_END_POINT' without 'http://' or 'https://'.
+# Examples:
+#Sys.setenv('AWS_DEFAULT_REGION' = '', "AWS_S3_ENDPOINT" = "s3.flare-forecast.org", 'AWS_ACCESS_KEY_ID' = 'access_key_id', 'AWS_SECRET_ACCESS_KEY' = 'secret_key')
+#Sys.setenv('AWS_DEFAULT_REGION' = '', "AWS_S3_ENDPOINT" = "35.85.48.109", 'AWS_ACCESS_KEY_ID' = 'access_key_id', 'AWS_SECRET_ACCESS_KEY' = 'secret_key')
+#Sys.setenv('AWS_DEFAULT_REGION' = '', "AWS_S3_ENDPOINT" = "ec2-35-85-48-109.us-west-2.compute.amazonaws.com", 'AWS_ACCESS_KEY_ID' = 'access_key_id', 'AWS_SECRET_ACCESS_KEY' = 'secret_key')
+#Sys.setenv('AWS_DEFAULT_REGION' = '', "AWS_S3_ENDPOINT" = "tacc.jetstream-cloud.org:8080", 'AWS_ACCESS_KEY_ID' = 'access_key_id', 'AWS_SECRET_ACCESS_KEY' = 'secret_key')
+
+library("aws.s3")
+
+# To enforce HTTPS, should be set to TRUE
+Sys.setenv('USE_HTTPS' = FALSE)
+
+Sys.setenv('AWS_DEFAULT_REGION' = '', "AWS_S3_ENDPOINT" = "play.min.io", 'AWS_ACCESS_KEY_ID' = 'Q3AM3UQ867SPQQA43P2F', 'AWS_SECRET_ACCESS_KEY' = 'zuf+tfteSlswRu7BJ86wekitnifILbZam1KYY3TG')
+
+# List all the buckets
+aws.s3::bucketlist(region = Sys.getenv("AWS_DEFAULT_REGION"), use_https = as.logical(Sys.getenv('USE_HTTPS')))
+
+# List a specific bucket
+aws.s3::get_bucket(bucket = "drivers", region = Sys.getenv("AWS_DEFAULT_REGION"), use_https = as.logical(Sys.getenv('USE_HTTPS')))
+```
 
 ## Build Docker Image
 
