@@ -14,6 +14,7 @@ docker run -it --env FORECAST_CODE='forecast_code_here' \
                --env FUNCTION='function_here' \
                --env AWS_DEFAULT_REGION='s3_default_region_here' \
                --env AWS_S3_ENDPOINT='s3_endpoint_here' \
+               --env USE_HTTPS=FALSE \
                --env AWS_ACCESS_KEY_ID='s3_access_key_here' \
                --env AWS_SECRET_ACCESS_KEY='s3_secret_key_here' \
                --rm flareforecast/flare
@@ -29,6 +30,7 @@ docker run -it --env FORECAST_CODE='https://github.com/FLARE-forecast/FCRE-forec
                --env FUNCTION='0' \
                --env AWS_DEFAULT_REGION='s3' \
                --env AWS_S3_ENDPOINT='flare-forecast.org' \
+               --env USE_HTTPS=FALSE \
                --env AWS_ACCESS_KEY_ID='s3_access_key_here' \
                --env AWS_SECRET_ACCESS_KEY='s3_secret_key_here' \
                --rm flareforecast/flare
@@ -49,6 +51,7 @@ docker run -it -v ~:/root/flare-containers \
                --env FUNCTION='function_here' \
                --env AWS_DEFAULT_REGION='s3_default_region_here' \
                --env AWS_S3_ENDPOINT='s3_endpoint_here' \
+               --env USE_HTTPS=TRUE/FALSE \
                --env AWS_ACCESS_KEY_ID='s3_access_key_here' \
                --env AWS_SECRET_ACCESS_KEY='s3_secret_key_here' \
                --rm flareforecast/flare
@@ -71,7 +74,7 @@ Specifies the configuration set to be used for the forecast. The default value i
 
 Based on different steps in a forecast workflow, it can be one of the following:
 
-`0`: Runs the whole workflow for a full forecast
+`0`: Runs the whole workflow for a full forecast  
 `1`: Downloads the required files to run forecast  
 `2`: Runs inflow forecast  
 `3`: Runs FLARE forecast  
@@ -84,6 +87,10 @@ Set based on S3 cloud access information. For CIBR project, it is `s3`.
 #### AWS_S3_ENDPOINT
 
 Set based on S3 cloud access information. For CIBR project, it is `flare-forecast.org`.
+
+#### USE_HTTPS
+
+Set TRUE or FALSE to enable or disable using HTTPS to access the AWS_S3_ENDPOINT. For CIBR project, it is `TRUE`.
 
 #### AWS_ACCESS_KEY_ID
 
