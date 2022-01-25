@@ -108,5 +108,5 @@ fi
 
 [[ ! -d 'flare-container/forecast-code' ]] && git clone $FORECAST_CODE flare-container/forecast-code
 cd flare-container/forecast-code
-echo "Sys.setenv('AWS_DEFAULT_REGION' = '$AWS_DEFAULT_REGION', 'AWS_S3_ENDPOINT' = '$AWS_S3_ENDPOINT', 'AWS_ACCESS_KEY_ID' = '$AWS_ACCESS_KEY_ID', 'AWS_SECRET_ACCESS_KEY' = '$AWS_SECRET_ACCESS_KEY')" >> .Rprofile
+echo "Sys.setenv('AWS_DEFAULT_REGION' = '$AWS_DEFAULT_REGION', 'AWS_S3_ENDPOINT' = '$AWS_S3_ENDPOINT', 'USE_HTTPS' = '$USE_HTTPS', 'AWS_ACCESS_KEY_ID' = '$AWS_ACCESS_KEY_ID', 'AWS_SECRET_ACCESS_KEY' = '$AWS_SECRET_ACCESS_KEY')" >> .Rprofile
 Rscript main_workflow.R $CONFIG_SET $FUNCTION
