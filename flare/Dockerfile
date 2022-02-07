@@ -62,7 +62,12 @@ RUN apt-get -yq update && \
   	zlib1g-dev=1:1.2.11.dfsg-2ubuntu1.2 && \
     rm -rf /var/lib/apt/lists/* && \
     #TODO: Install a Specific Version of These R Packages
-    R -e "install.packages(c('yaml', 'remotes', 'imputeTS', 'rMR', 'here', 'aws.s3', 'libxt6'), repos = 'https://cloud.r-project.org')" && \
+    R -e "devtools::install_version('yaml', version = '2.2.2', repos = 'https://cloud.r-project.org')" && \
+    R -e "devtools::install_version('remotes', version = '2.4.2', repos = 'https://cloud.r-project.org')" && \
+    R -e "devtools::install_version('imputeTS', version = '3.2', repos = 'https://cloud.r-project.org')" && \
+    R -e "devtools::install_version('rMR', version = '1.1.0' , repos = 'https://cloud.r-project.org')" && \
+    R -e "devtools::install_version('here', version = '1.0.1', repos = 'https://cloud.r-project.org')" && \
+    R -e "devtools::install_version('aws.s3', version = '0.3.21', repos = 'https://cloud.r-project.org')" && \
     R -e "remotes::install_github('FLARE-forecast/Rnoaa4cast@7e401340b004910ff328dec7d4ec6ef0cbcc6863')" && \
     R -e "remotes::install_github('FLARE-forecast/GLM3r@768cdef2bcd2b04feec912eeacb175d67ff88598')" && \
     R -e "remotes::install_github('vahid-dan/FLAREr@f336759db35a55081313a9b4a4d51b36a1e8fdc3')"
