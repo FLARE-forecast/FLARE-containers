@@ -49,6 +49,7 @@ To access the container output, we can mount it as a shared volume on the host. 
 ```bash
 docker run -it -v ~:/root/flare-containers \
                --env FORECAST_CODE='forecast_code_here' \
+               --env SIM_NAME='simulation_name_here' \
                --env CONFIG_SET="config_set_here" \
                --env FUNCTION='function_here' \
                --env AWS_DEFAULT_REGION='s3_default_region_here' \
@@ -63,6 +64,8 @@ docker run -it -v ~:/root/flare-containers \
 
 #### FORECAST_CODE
 
+**Required**
+
 Specifies the forecast codebase Git repository. For instance, for CIBR project:
 
 `https://github.com/FLARE-forecast/FCRE-forecast-code`: For FCRE  
@@ -70,13 +73,23 @@ Specifies the forecast codebase Git repository. For instance, for CIBR project:
 
 #### SIM_NAME
 
+**Required**
+
 Specifies the simulation name in th forecast. The outputs and intermediate data are stored under this name. To continue the forecast from where it is left off, the simulation name must be the same as before.
 
 #### CONFIG_SET
 
+**Optional**
+
+**Default Value:** `default`
+
 Specifies the configuration set to be used for the forecast. The default value is `default` which loads the scripts from `workflows/default` and the configurations from `configurations/default` directory. Modified code and configuration set can be placed in new directories under `workflows` and `configuration` respetively.
 
 #### FUNCTION
+
+**Optional**
+
+**Default Value: **`0`
 
 Based on different steps in a forecast workflow, it can be one of the following:
 
@@ -88,21 +101,35 @@ Based on different steps in a forecast workflow, it can be one of the following:
 
 #### AWS_DEFAULT_REGION
 
+**Optional**
+
+**Default Value:** NULL
+
 Set based on S3 cloud access information. For CIBR project, it is `s3`.
 
 #### AWS_S3_ENDPOINT
+
+**Required**
 
 Set based on S3 cloud access information. For CIBR project, it is `flare-forecast.org`.
 
 #### USE_HTTPS
 
+**Optional**
+
+**Default Value:** FALSE
+
 Set TRUE or FALSE to enable or disable using HTTPS to access the AWS_S3_ENDPOINT. For CIBR project, it is `TRUE`.
 
 #### AWS_ACCESS_KEY_ID
 
+**Required**
+
 Set based on S3 cloud access information. For CIBR project, ask Dr. Quinn Thomas.
 
 #### AWS_SECRET_ACCESS_KEY
+
+**Required**
 
 Set based on S3 cloud access information. For CIBR project, ask Dr. Quinn Thomas.
 

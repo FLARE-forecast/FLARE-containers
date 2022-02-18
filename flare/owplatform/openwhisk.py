@@ -14,18 +14,12 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 #
-IMG=whisk/actionloop-python-v3.7:latest
 
-build:
-	docker build -t $(IMG) .
+class OpenWhiskImpl:
 
-clean:
-	docker rmi -f $(IMG)
+    def __init__(self, proxy):
+        self.proxy = proxy
 
-debug: build
-	docker run -p 8080:8080 \
-	-ti --entrypoint=/bin/bash -v $(PWD):/mnt \
-	-e OW_COMPILER=/mnt/bin/compile \
-	$(IMG)
-
-.PHONY: build clean  debug
+    def registerHandlers(self, init, run):
+        self.proxy.add_url_rule('/init', 'init', init, methods=['POST'])
+        self.proxy.add_url_rule('/run', 'run', run, methods=['POST'])
