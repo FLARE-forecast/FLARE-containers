@@ -48,7 +48,7 @@ RUN apt-get -yq update && \
     R -e "devtools::install_version('aws.s3', version = '0.3.21', repos = 'https://cloud.r-project.org')" && \
     R -e "remotes::install_github('FLARE-forecast/Rnoaa4cast@7e401340b004910ff328dec7d4ec6ef0cbcc6863')" && \
     R -e "remotes::install_github('FLARE-forecast/GLM3r@768cdef2bcd2b04feec912eeacb175d67ff88598')" && \
-    R -e "remotes::install_github('FLARE-forecast/FLAREr@2b616044447c61857def7b133e53af96bca54bc2')"
+    R -e "remotes::install_github('FLARE-forecast/FLAREr@5dfc7b77dc74a973433c419b8d77b4b49482803c')"
 
 #Install common modules for python
 COPY requirements.txt requirements.txt

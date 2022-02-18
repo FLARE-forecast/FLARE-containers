@@ -10,6 +10,7 @@ Set the environment variables ans run the following command:
 
 ```bash
 docker run -it --env FORECAST_CODE='forecast_code_here' \
+               --env SIM_NAME='simulation_name_here' \
                --env CONFIG_SET="config_set_here" \
                --env FUNCTION='function_here' \
                --env AWS_DEFAULT_REGION='s3_default_region_here' \
@@ -26,6 +27,7 @@ For authorized CIBR users to run FCRE forecasts:
 
 ```bash
 docker run -it --env FORECAST_CODE='https://github.com/FLARE-forecast/FCRE-forecast-code' \
+               --env SIM_NAME='sim1' \
                --env CONFIG_SET='default'
                --env FUNCTION='0' \
                --env AWS_DEFAULT_REGION='s3' \
@@ -65,6 +67,10 @@ Specifies the forecast codebase Git repository. For instance, for CIBR project:
 
 `https://github.com/FLARE-forecast/FCRE-forecast-code`: For FCRE  
 `https://github.com/FLARE-forecast/SUNP-forecast-code`: For SUNP
+
+#### SIM_NAME
+
+Specifies the simulation name in th forecast. The outputs and intermediate data are stored under this name. To continue the forecast from where it is left off, the simulation name must be the same as before.
 
 #### CONFIG_SET
 
