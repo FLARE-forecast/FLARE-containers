@@ -108,4 +108,4 @@ fi
 
 [[ ! -d 'flare-container/forecast-code' ]] && git clone $FORECAST_CODE flare-container/forecast-code
 cd flare-container/forecast-code
-Rscript main_workflow.R $SIM_NAME $CONFIG_SET $FUNCTION
+Rscript main_workflow.R $CONFIG_SET $FUNCTION $CONFIGURE_RUN
