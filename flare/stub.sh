@@ -15,21 +15,31 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 #
-
-echo \
-'This is a stub action that should be replaced with user code (e.g., script or compatible binary).
-The input to the action is received from stdin, and up to a size of MAX_ARG_STRLEN (131071) also as an argument from the command line.
-Actions may log to stdout or stderr. By convention, the last line of output must
-be a stringified JSON object which represents the result of the action.'
-
-# getting arguments from command line
-# only arguments up to a size of MAX_ARG_STRLEN (else empty) supported
-echo 'command line argument: '$1
-echo 'command line argument length: '${#1}
-
-# getting arguments from stdin
-read inputstring
-echo 'stdin input length: '${#inputstring}
-
-# last line of output = action result
-echo '{ "error": "This is a stub action. Replace it with custom logic." }'
+# Read value from json and set environment variables
+export FORECAST_CODE=$(echo $1 | jq -r '."forecast_code"')
+export CONFIG_SET=$(echo $1 | jq -r '."config_set"')
+export FUNCTION=$(echo $1 | jq -r '."function"')
+export USE_HTTPS=$(echo $1 | jq -r '."use_https"')
+export AWS_DEFAULT_REGION=$(echo $1 | jq -r '."aws_default_region"')
+export AWS_S3_ENDPOINT=$(echo $1 | jq -r '."aws_s3_endpoint"')
+export AWS_ACCESS_KEY_ID=$(echo $1 | jq -r '."aws_access_key_ID"')
+export AWS_SECRET_ACCESS_KEY=$(echo $1 | jq -r '."aws_secret_access_key"')
+export SIM_NAME=$(echo $1 | jq -r '."sim_name"')
+# Run flare-run-container.sh
+/root/flare-run-container.sh
+# Return json parameters
+if [ "$FUNCTION" -lt 4 ] && [ "$FUNCTION" -gt 0 ]; then
+  NEXT_FUNCTION=`expr $FUNCTION + 1`
+  result="{ \"forecast_code\": \"$FORECAST_CODE\", \
+            \"config_set\": \"$CONFIG_SET\", \
+            \"function\": \"$NEXT_FUNCTION\", \
+            \"use_https\": \"$USE_HTTPS\", \
+            \"aws_default_region\": \"$AWS_DEFAULT_REGION\", \
+            \"aws_s3_endpoint\": \"$AWS_S3_ENDPOINT\", \
+            \"aws_access_key_ID\": \"$AWS_ACCESS_KEY_ID\", \
+            \"aws_secret_access_key\": \"$AWS_SECRET_ACCESS_KEY\", \
+            \"sim_name\": \"$SIM_NAME\"}"
+else
+  result='{ "result": "Completed!" }'
+fi
+echo "${result}"

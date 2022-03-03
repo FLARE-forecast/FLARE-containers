@@ -44,7 +44,7 @@ RUN apt-get -yq update && \
     R -e "devtools::install_version('aws.s3', version = '0.3.21', repos = 'https://cloud.r-project.org')" && \
     R -e "remotes::install_github('FLARE-forecast/Rnoaa4cast@7e401340b004910ff328dec7d4ec6ef0cbcc6863')" && \
     R -e "remotes::install_github('FLARE-forecast/GLM3r@768cdef2bcd2b04feec912eeacb175d67ff88598')" && \
-    R -e "remotes::install_github('FLARE-forecast/FLAREr@14b043e8c22a86c89201b0f4206149bd42f7cc4a')"
+    R -e "remotes::install_github('FLARE-forecast/FLAREr@1ac3e0cfa9c573922cb105402d04f65b78000d1d')"
 
 # Upgrade and Install Basic Python Dependencies
 RUN update-ca-certificates \
@@ -68,4 +68,4 @@ COPY source.sh /root/
 COPY flare-run-container.sh /root/
 RUN chmod +x /root/source.sh /root/flare-run-container.sh
 
-CMD ["/bin/bash", "-c", "cd actionProxy && python -u actionproxy.py"]
+CMD ["/bin/bash", "-c", "cd actionProxy && python3 -u actionproxy.py"]
