@@ -64,6 +64,7 @@ ADD stub.sh /action/exec
 RUN chmod +x /action/exec
 
 # Copy Files to Container
+ADD VERSION .
 COPY source.sh /root/
 COPY flare-run-container.sh /root/
 RUN chmod +x /root/source.sh /root/flare-run-container.sh
