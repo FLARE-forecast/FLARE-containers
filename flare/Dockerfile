@@ -68,4 +68,4 @@ COPY source.sh /root/
 COPY flare-run-container.sh /root/
 RUN chmod +x /root/source.sh /root/flare-run-container.sh
 
-CMD ["/bin/bash", "-c", "cd actionProxy && python3 -u actionproxy.py"]
+CMD R -e "devtools::package_info(pkgs = c('FLAREr', 'GLM3r', 'Rnoaa4cast'), include_base = FALSE, dependencies = FALSE)" && cd actionProxy && python3 -u actionproxy.py
