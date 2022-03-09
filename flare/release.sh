@@ -8,12 +8,13 @@ IMAGE=flare
 git pull
 
 # Bump version
-docker run --rm -v "$PWD":/app treeder/bump patch
+/usr/bin/docker run --rm -v "$PWD":/app treeder/bump patch
 version=`cat VERSION`
 echo "version: $version"
 
 # Run build
 ./build.sh
+echo "Build finished"
 
 # Tag it
 git add -A
@@ -21,8 +22,10 @@ git commit -m "version $version"
 git tag -a "$version" -m "version $version"
 git push
 git push --tags
-docker tag $USERNAME/$IMAGE:latest $USERNAME/$IMAGE:$version
+/usr/bin/docker tag $USERNAME/$IMAGE:latest $USERNAME/$IMAGE:$version
+echo "Tags pushed"
 
 # Push it
-docker push $USERNAME/$IMAGE:latest
-docker push $USERNAME/$IMAGE:$version
+/usr/bin/docker push $USERNAME/$IMAGE:latest
+/usr/bin/docker push $USERNAME/$IMAGE:$version
+echo "Images pushed"
