@@ -19,12 +19,12 @@
 export FORECAST_CODE=$(echo $1 | jq -r '."forecast_code"')
 export CONFIG_SET=$(echo $1 | jq -r '."config_set"')
 export FUNCTION=$(echo $1 | jq -r '."function"')
+export CONFIGURE_RUN=$(echo $1 | jq -r '."configure_run"')
 export USE_HTTPS=$(echo $1 | jq -r '."use_https"')
 export AWS_DEFAULT_REGION=$(echo $1 | jq -r '."aws_default_region"')
 export AWS_S3_ENDPOINT=$(echo $1 | jq -r '."aws_s3_endpoint"')
 export AWS_ACCESS_KEY_ID=$(echo $1 | jq -r '."aws_access_key_ID"')
 export AWS_SECRET_ACCESS_KEY=$(echo $1 | jq -r '."aws_secret_access_key"')
-export SIM_NAME=$(echo $1 | jq -r '."sim_name"')
 # Run flare-run-container.sh
 /root/flare-run-container.sh
 # Return json parameters
@@ -33,12 +33,12 @@ if [ "$FUNCTION" -lt 4 ] && [ "$FUNCTION" -gt 0 ]; then
   result="{ \"forecast_code\": \"$FORECAST_CODE\", \
             \"config_set\": \"$CONFIG_SET\", \
             \"function\": \"$NEXT_FUNCTION\", \
+            \"configure_run\": \"$CONFIGURE_RUN\", \
             \"use_https\": \"$USE_HTTPS\", \
             \"aws_default_region\": \"$AWS_DEFAULT_REGION\", \
             \"aws_s3_endpoint\": \"$AWS_S3_ENDPOINT\", \
             \"aws_access_key_ID\": \"$AWS_ACCESS_KEY_ID\", \
-            \"aws_secret_access_key\": \"$AWS_SECRET_ACCESS_KEY\", \
-            \"sim_name\": \"$SIM_NAME\"}"
+            \"aws_secret_access_key\": \"$AWS_SECRET_ACCESS_KEY\"}"
 else
   result='{ "result": "Completed!" }'
 fi
