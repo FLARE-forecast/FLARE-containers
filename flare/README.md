@@ -21,6 +21,22 @@ docker run -it --env FORECAST_CODE='forecast_code_here' \
                --rm flareforecast/flare
 ```
 
+To run in mnaual mode without Apache OpenWhisk or IBM Cloud Functions:
+
+```bash
+docker run -it --env FORECAST_CODE='forecast_code_here' \
+               --env CONFIG_SET='config_set_here' \
+               --env FUNCTION='function_here' \
+               --env CONFIGURE_RUN='configure_run_file_here' \
+               --env AWS_DEFAULT_REGION='s3_default_region_here' \
+               --env AWS_S3_ENDPOINT='s3_endpoint_here' \
+               --env USE_HTTPS=FALSE \
+               --env AWS_ACCESS_KEY_ID='s3_access_key_here' \
+               --env AWS_SECRET_ACCESS_KEY='s3_secret_key_here' \
+               --entrypoint '/root/flare-run-container.sh' \
+               --rm flareforecast/flare
+```
+
 ### Example
 
 For authorized CIBR users to run FCRE forecasts:
