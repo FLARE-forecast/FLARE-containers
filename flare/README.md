@@ -10,6 +10,7 @@ Set the environment variables ans run the following command:
 
 ```bash
 docker run -it --env FORECAST_CODE='forecast_code_here' \
+               --env FORECAST_CODE_BRANCH='forecast_code_branch_tag_here' \
                --env CONFIG_SET='config_set_here' \
                --env FUNCTION='function_here' \
                --env CONFIGURE_RUN='configure_run_file_here' \
@@ -25,6 +26,7 @@ To run in mnaual mode without Apache OpenWhisk or IBM Cloud Functions:
 
 ```bash
 docker run -it --env FORECAST_CODE='forecast_code_here' \
+               --env FORECAST_CODE_BRANCH='forecast_code_branch_tag_here' \
                --env CONFIG_SET='config_set_here' \
                --env FUNCTION='function_here' \
                --env CONFIGURE_RUN='configure_run_file_here' \
@@ -43,6 +45,7 @@ For authorized CIBR users to run FCRE forecasts:
 
 ```bash
 docker run -it --env FORECAST_CODE='https://github.com/FLARE-forecast/FCRE-forecast-code' \
+               --env FORECAST_CODE_BRANCH='latest' \
                --env CONFIG_SET='default' \
                --env FUNCTION='0' \
                --env CONFIGURE_RUN='configure_run.yml' \
@@ -65,6 +68,7 @@ To access the container output, we can mount it as a shared volume on the host. 
 ```bash
 docker run -it -v ~:/root/flare-containers \
                --env FORECAST_CODE='forecast_code_here' \
+               --env FORECAST_CODE_BRANCH='forecast_code_branch_tag_here' \
                --env CONFIG_SET='config_set_here' \
                --env FUNCTION='function_here' \
                --env CONFIGURE_RUN='configure_run_file_here' \
