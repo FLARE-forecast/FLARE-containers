@@ -1,0 +1,17 @@
+## Container Settings
+container:
+  name: send-email
+  version: latest
+gmail:
+  username:
+  password-hash:
+  from: SCC
+email:
+  subject: Daily SUNP Graphs
+  body: "Hello from Jetstream 2!\n\nHere are today's graphs. Have a wonderful day!\n\nBests,\nSCC and CIBR Team"
+  attachments_github:
+    - https://github.com/FLARE-forecast/SUNP-data/raw/sunp-graphs/sunpMetDataFigures_
+    - https://github.com/FLARE-forecast/SUNP-data/raw/sunp-graphs/sunpWaterQualityDataFigures_
+  attachments_local:
+  recipients:
+    - <recipient>@gmail.com

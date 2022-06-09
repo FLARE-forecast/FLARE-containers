@@ -1,0 +1,24 @@
+## Container Settings
+container:
+  name: send-email
+  version: latest
+gmail:
+  username:
+  password-hash:
+  from: SCC
+email:
+  subject: Daily FCR Forecast and Graphs
+  body: "Hello from Jetstream 2!\n\nHere are today's forecast and graphs. Have a wonderful day!\n\nBests,\nSCC and CIBR Team"
+  attachments_graph:
+    prefix: https://s3.flare-forecast.org/analysis/fcre/fcre-
+    postfix: -fcre_js2_turnover.png
+  attachments_github:
+    - https://github.com/FLARE-forecast/FCRE-data/raw/wvwa-graphs/BVRDataFigures_
+    - https://github.com/FLARE-forecast/FCRE-data/raw/wvwa-graphs/CCRMetDataFigures_
+    - https://github.com/FLARE-forecast/FCRE-data/raw/wvwa-graphs/CCRWaterQualityDataFigures_
+    - https://github.com/FLARE-forecast/FCRE-data/raw/wvwa-graphs/FCRCatwalkDataFigures_
+    - https://github.com/FLARE-forecast/FCRE-data/raw/wvwa-graphs/MetDataFigures_
+    - https://github.com/FLARE-forecast/FCRE-data/raw/wvwa-graphs/WeirDataFigures_
+  attachments_local:
+  recipients:
+    - <recipient>@gmail.com
