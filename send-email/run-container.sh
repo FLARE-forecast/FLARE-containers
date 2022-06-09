@@ -127,7 +127,7 @@ __graph_url="${ATTACHMENTS_GRAPH_PREFIX}"$(date -d $__past" day ago" '+%Y-%m-%d'
 
 # Find if URL is accessible
 function validate_url() {
-  if [[ `wget -S --spider ${1} 2>&1 | grep 'HTTP/1.1 200 OK'` ]]; then
+  if [[ `wget -S --spider --no-check-certificate ${1} 2>&1 | grep 'HTTP/1.1 200 OK'` ]]; then
     echo "Valid URL"
   else
     echo "Invalid URL"
