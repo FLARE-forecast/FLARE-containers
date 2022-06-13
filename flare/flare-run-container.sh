@@ -1,11 +1,11 @@
 #!/usr/bin/env bash
 # This file:
 #
-#  - Runs the service inside FLARE container.
+#  - Demos BASH3 Boilerplate (change this for your script)
 #
 # Usage:
 #
-#  LOG_LEVEL=7 ./flare-container.sh -d
+#  LOG_LEVEL=7 ./example.sh -f /tmp/x -d (change this for your script)
 #
 # Based on a template by BASH3 Boilerplate v2.3.0
 # http://bash3boilerplate.sh/#authors
@@ -33,33 +33,36 @@ read -r -d '' __usage <<-'EOF' || true # exits non-zero when EOF encountered
   -d --debug       Enables debug mode
   -h --help        This page
   -n --no-color    Disable color output
-  -o --openwhisk   Enables OpenWhisk mode
+  -1 --one         Do just one thing
+  -i --input [arg] File to process. Can be repeated.
+  -x               Specify a flag. Can be repeated.
 EOF
 
 # shellcheck disable=SC2034
 read -r -d '' __helptext <<-'EOF' || true # exits non-zero when EOF encountered
-  'flare-container' script for '${CONTAINER_NAME}' container
+ This is Bash3 Boilerplate's help text. Feel free to add any description of your
+ program or elaborate more on command-line arguments. This section is not
+ parsed and will be added as-is to the help.
 EOF
 
-# shellcheck source=commons.sh
-source "$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)/commons.sh"
+# shellcheck source=main.sh
+source "$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)/source.sh"
 
 
 ### Signal trapping and backtracing
 ##############################################################################
 
 function __b3bp_cleanup_before_exit () {
-  rm -rf /home/user/.ssh
-  info "Done Cleaning Up Container"
+  info "Cleaning up. Done"
 }
 trap __b3bp_cleanup_before_exit EXIT
 
 # requires `set -o errtrace`
 __b3bp_err_report() {
-  local error_code=${?}
-  # shellcheck disable=SC2154
-  error "Error in ${__file} in function ${1} on line ${2}"
-  exit ${error_code}
+    local error_code=${?}
+    # shellcheck disable=SC2154
+    error "Error in ${__file} in function ${1} on line ${2}"
+    exit ${error_code}
 }
 # Uncomment the following line for always providing an error backtrace
 # trap '__b3bp_err_report "${FUNCNAME:-.}" ${LINENO}' ERR
@@ -93,41 +96,25 @@ if [[ "${arg_h:?}" = "1" ]]; then
   help "Help using ${0}"
 fi
 
-# OpenWhisk mode
-if [[ "${arg_o:?}" = "1" ]]; then
-  echo "Running in OpenWhisk Mode..."
-fi
 
-
-### User-defined and Runtime
+### Validation. Error out if the things required for your script are not present
 ##############################################################################
 
-SCRIPT="02_process_observations.R"
-CONTAINER_NAME=${1}
-CONTAINER_VERSION=$(yq r ${DIRECTORY_CONTAINER_SHARED}/${CONTAINER_NAME}/${CONFIG_FILE} container.version)
-echo "Welcome to ${CONTAINER_NAME} version ${CONTAINER_VERSION}!"
+[[ "${LOG_LEVEL:-}" ]] || emergency "Cannot continue without LOG_LEVEL. "
 
-LAKES_DIRECTORY=$(yq r ${DIRECTORY_CONTAINER_SHARED}/${CONTAINER_NAME}/${CONFIG_FILE} lakes_directory)
-LAKE_NAME_CODE=$(yq r ${DIRECTORY_CONTAINER_SHARED}/${CONTAINER_NAME}/${CONFIG_FILE} lake_name_code)
-GIT_REMOTE_USERNAME=$(yq r ${DIRECTORY_CONTAINER_SHARED}/${CONTAINER_NAME}/${CONFIG_FILE} git.remote.user-name)
-GIT_REMOTE_USEREMAIL=$(yq r ${DIRECTORY_CONTAINER_SHARED}/${CONTAINER_NAME}/${CONFIG_FILE} git.remote.user-email)
-GIT_REMOTE_SSHKEYPRIVATE=$(yq r ${DIRECTORY_CONTAINER_SHARED}/${CONTAINER_NAME}/${CONFIG_FILE} git.remote.ssh-key-private)
-QAQC_DATA_LOCATION=$(yq r ${DIRECTORY_CONTAINER_SHARED}/${CONTAINER_NAME}/${CONFIG_FILE} qaqc_data_location)
 
-# Extract Private SSH Key File Name from Full Path
-GIT_REMOTE_SSHKEYPRIVATE_FILE=$(awk -F/ '{print $NF}' <<< ${GIT_REMOTE_SSHKEYPRIVATE})
+### Run-time and User-defined
+##############################################################################
 
-# Setup SSH
-mkdir -p /home/user/.ssh
-[[ -e ${GIT_REMOTE_SSHKEYPRIVATE_FILE} ]] && cp -u ${DIRECTORY_CONTAINER_SHARED}/${CONTAINER_NAME}/${GIT_REMOTE_SSHKEYPRIVATE_FILE} /home/user/.ssh/id_rsa
-
-# Setup Git
-[[ -e ${GIT_REMOTE_USERNAME} ]] && git config --global user.name ${GIT_REMOTE_USERNAME}
-[[ -e ${GIT_REMOTE_USEREMAIL} ]] && git config --global user.email ${GIT_REMOTE_USEREMAIL}
-
-# Create qaqc_data_location
-mkdir -p ${QAQC_DATA_LOCATION}
-
-# Run R Script
-# Pass `${CONTAINER_NAME}` Argument to the R Script
-Rscript ${DIRECTORY_CONTAINER}/${LAKES_DIRECTORY}/${LAKE_NAME_CODE}/${SCRIPT} ${CONTAINER_NAME}
+# Clone the forecast code repo
+if [ ! -d 'flare-container/forecast-code' ]; # Check if the repo is already cloned
+  then
+    if [ $FORECAST_CODE_BRANCH ]; # Check for the request for cloning a specific branch or tag
+      then
+        git clone --depth 1 --branch $FORECAST_CODE_BRANCH $FORECAST_CODE flare-container/forecast-code;
+      else 
+        git clone --depth 1 $FORECAST_CODE flare-container/forecast-code;
+    fi
+fi
+cd flare-container/forecast-code
+Rscript main_workflow.R ${CONFIG_SET:-} ${FUNCTION:-} ${CONFIGURE_RUN:-}

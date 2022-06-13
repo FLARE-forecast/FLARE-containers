@@ -1,20 +1,18 @@
-FROM ubuntu:18.04
+ARG DEBIAN_FRONTEND=noninteractive
 
-# Set FLARE user
-RUN groupadd --gid 5000 user \
-    && useradd --home-dir /home/user --create-home --uid 5000 \
-        --gid 5000 --shell /bin/sh --skel /dev/null user
+FROM ubuntu:latest
 
+# Install Dependencies
+RUN apt-get -yq update && \
+    apt-get -yqq install --no-install-recommends --yes vim=2:8.2.3995-1ubuntu2 \
+    wget=1.21.2-2ubuntu1 \
+    s-nail=14.9.23-1build1 && \
+    wget --no-check-certificate https://github.com/mikefarah/yq/releases/download/v4.2.0/yq_linux_amd64 -O /usr/bin/yq && chmod +x /usr/bin/yq
 
-# Install packages
-RUN apt-get update -y && apt-get install sudo wget s-nail vim -y
-RUN wget https://github.com/mikefarah/yq/releases/download/v4.2.0/yq_linux_amd64 -O /usr/bin/yq && chmod +x /usr/bin/yq
+# Copy Files
+COPY send-email/run-container.sh /root/flare/
+COPY commons/source.sh /root/flare/
+COPY send-email/*.yml /root/flare/
+RUN chmod +x /root/flare/run-container.sh
 
-# Copy files
-USER user
-COPY --chown=user:user send-email/flare-container.sh /home/user/flare/
-COPY --chown=user:user commons/commons.sh /home/user/flare/
-RUN chmod +x /home/user/flare/flare-container.sh
-
-
-WORKDIR /home/user/flare/
+ENTRYPOINT /root/flare/run-container.sh ${CONFIG_FILE}
