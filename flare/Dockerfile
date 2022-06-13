@@ -51,8 +51,8 @@ RUN chmod +x /action/exec
 
 # Copy Files
 ADD VERSION .
-COPY ../commons/source.sh /root/
-COPY flare-run-container.sh /root/
+COPY commons/source.sh /root/
+COPY flare/flare-run-container.sh /root/
 RUN chmod +x /root/source.sh /root/flare-run-container.sh
 
 CMD R -e "devtools::package_info(pkgs = c('FLAREr', 'GLM3r', 'Rnoaa4cast'), include_base = FALSE, dependencies = FALSE)" && cd actionProxy && python3 -u actionproxy.py
