@@ -40,17 +40,17 @@ RUN update-ca-certificates \
 ENV FLASK_PROXY_PORT 8080
 
 RUN mkdir -p /actionProxy/owplatform
-ADD actionproxy.py /actionProxy/
-ADD owplatform/__init__.py /actionProxy/owplatform/
-ADD owplatform/knative.py /actionProxy/owplatform/
-ADD owplatform/openwhisk.py /actionProxy/owplatform/
+ADD flare/actionproxy.py /actionProxy/
+ADD flare/owplatform/__init__.py /actionProxy/owplatform/
+ADD flare/owplatform/knative.py /actionProxy/owplatform/
+ADD flare/owplatform/openwhisk.py /actionProxy/owplatform/
 
 RUN mkdir -p /action
-ADD stub.sh /action/exec
+ADD flare/stub.sh /action/exec
 RUN chmod +x /action/exec
 
 # Copy Files
-ADD VERSION .
+ADD flare/VERSION .
 COPY commons/source.sh /root/
 COPY flare/flare-run-container.sh /root/
 RUN chmod +x /root/source.sh /root/flare-run-container.sh
