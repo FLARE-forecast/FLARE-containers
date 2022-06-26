@@ -6,5 +6,6 @@ USERNAME=flareforecast
 # Image name
 IMAGE=flare
 
-docker build -t $USERNAME/$IMAGE:latest .
+cd ..
+docker build -t $USERNAME/$IMAGE:latest -f flare/Dockerfile .
 
