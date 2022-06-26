@@ -107,14 +107,15 @@ fi
 ##############################################################################
 
 # Clone the forecast code repo
-if [ ! -d 'flare-container/forecast-code' ]; # Check if the repo is already cloned
-  then
-    if [ $FORECAST_CODE_BRANCH ]; # Check for the request for cloning a specific branch or tag
-      then
-        git clone --depth 1 --branch $FORECAST_CODE_BRANCH $FORECAST_CODE flare-container/forecast-code;
-      else 
-        git clone --depth 1 $FORECAST_CODE flare-container/forecast-code;
-    fi
+if [[ ! -d 'flare-container/forecast-code' ]]; then # Check if the repo is already cloned
+  if [[ -z ${FORECAST_CODE_BRANCH:-} ]]; then # Check for the request for cloning a specific branch or tag
+    git clone --depth 1 ${FORECAST_CODE} flare-container/forecast-code
+  else 
+    git clone --depth 1 --branch ${FORECAST_CODE_BRANCH:-} ${FORECAST_CODE} flare-container/forecast-code
+  fi
 fi
 cd flare-container/forecast-code
+if [[ ! -z ${FORECAST_CODE_COMMIT:-} ]]; then # Check for the request for using a specific commit
+  git checkout ${FORECAST_CODE_COMMIT:-}
+fi
 Rscript main_workflow.R ${CONFIG_SET:-} ${FUNCTION:-} ${CONFIGURE_RUN:-}

@@ -4,7 +4,7 @@ FROM rocker/tidyverse:4.2
 
 # Install Dependencies
 RUN apt-get -yq update && \
-    apt-get -yqq install --no-install-recommends --yes apt-utils=2.0.8 \
+    apt-get -yqq install --no-install-recommends --yes apt-utils=2.0.9 \
     vim=2:8.1.2269-1ubuntu5.7 \
     curl=7.68.0-1ubuntu2.11 \
     libgdal-dev=3.0.4+dfsg-1build3 \
