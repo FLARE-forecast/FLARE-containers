@@ -4,7 +4,7 @@ FROM rocker/tidyverse:4.2
 
 # Install Dependencies
 RUN apt-get -yq update && \
-    apt-get -yqq install --no-install-recommends --yes apt-utils=2.0.8 \
+    apt-get -yqq install --no-install-recommends --yes apt-utils=2.0.9 \
     vim=2:8.1.2269-1ubuntu5.7 \
     curl=7.68.0-1ubuntu2.11 \
     libgdal-dev=3.0.4+dfsg-1build3 \
@@ -19,6 +19,7 @@ RUN apt-get -yq update && \
     libxmuu1=2:1.1.3-0ubuntu1 \
     openssh-client=1:8.2p1-4ubuntu0.5 \
     xauth=1:1.1-0ubuntu1 \
+    libzmq5=4.3.2-2ubuntu1 \
     python3=3.8.2-0ubuntu2 \
     python3-pip=20.0.2-5ubuntu1.6 && \
     rm -rf /var/lib/apt/lists/* && \
@@ -28,6 +29,8 @@ RUN apt-get -yq update && \
     R -e "devtools::install_version('rMR', version = '1.1.0', repos = 'https://cloud.r-project.org')" && \
     R -e "devtools::install_version('here', version = '1.0.1', repos = 'https://cloud.r-project.org')" && \
     R -e "devtools::install_version('aws.s3', version = '0.3.21', repos = 'https://cloud.r-project.org')" && \
+    R -e "devtools::install_version('googlesheets4', version = '1.0.0', repos = 'https://cloud.r-project.org')" && \
+    R -e "devtools::install_version('gsheet', version = '0.4.5', repos = 'https://cloud.r-project.org')" && \
     R -e "remotes::install_github('FLARE-forecast/Rnoaa4cast@faa3a329d8c1ccec0f40ce847b6750f9a22b3ba8')" && \
     R -e "remotes::install_github('FLARE-forecast/GLM3r@768cdef2bcd2b04feec912eeacb175d67ff88598')" && \
     R -e "remotes::install_github('FLARE-forecast/FLAREr@1ac3e0cfa9c573922cb105402d04f65b78000d1d')"

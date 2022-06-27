@@ -1,4 +1,4 @@
-# FLARE Containers 22.01.2
+# FLARE Containers 22.01.3
 
 The purpose of this project is to run FLARE forecast with a docker container. It supports native S3 integration, and the output gets stored on S3 storage. If the use of S3 is enabled in the configurations, S3 access information is required.
 
@@ -9,34 +9,36 @@ The purpose of this project is to run FLARE forecast with a docker container. It
 Set the environment variables ans run the following command:
 
 ```bash
-docker run -it --env FORECAST_CODE='forecast_code_here' \
-               --env FORECAST_CODE_BRANCH='forecast_code_branch_tag_here' \
-               --env CONFIG_SET='config_set_here' \
-               --env FUNCTION='function_here' \
-               --env CONFIGURE_RUN='configure_run_file_here' \
-               --env AWS_DEFAULT_REGION='s3_default_region_here' \
-               --env AWS_S3_ENDPOINT='s3_endpoint_here' \
-               --env USE_HTTPS=FALSE \
-               --env AWS_ACCESS_KEY_ID='s3_access_key_here' \
-               --env AWS_SECRET_ACCESS_KEY='s3_secret_key_here' \
-               --rm flareforecast/flare
+docker run --env FORECAST_CODE='forecast_code_here' \
+           --env FORECAST_CODE_BRANCH='forecast_code_branch_tag_here' \
+           --env FORECAST_CODE_COMMIT='forecast_code_commit_here' \
+           --env CONFIG_SET='config_set_here' \
+           --env FUNCTION='function_here' \
+           --env CONFIGURE_RUN='configure_run_file_here' \
+           --env AWS_DEFAULT_REGION='s3_default_region_here' \
+           --env AWS_S3_ENDPOINT='s3_endpoint_here' \
+           --env USE_HTTPS=FALSE \
+           --env AWS_ACCESS_KEY_ID='s3_access_key_here' \
+           --env AWS_SECRET_ACCESS_KEY='s3_secret_key_here' \
+           --rm flareforecast/flare
 ```
 
 To run in mnaual mode without Apache OpenWhisk or IBM Cloud Functions:
 
 ```bash
-docker run -it --env FORECAST_CODE='forecast_code_here' \
-               --env FORECAST_CODE_BRANCH='forecast_code_branch_tag_here' \
-               --env CONFIG_SET='config_set_here' \
-               --env FUNCTION='function_here' \
-               --env CONFIGURE_RUN='configure_run_file_here' \
-               --env AWS_DEFAULT_REGION='s3_default_region_here' \
-               --env AWS_S3_ENDPOINT='s3_endpoint_here' \
-               --env USE_HTTPS=FALSE \
-               --env AWS_ACCESS_KEY_ID='s3_access_key_here' \
-               --env AWS_SECRET_ACCESS_KEY='s3_secret_key_here' \
-               --entrypoint '/root/flare-run-container.sh' \
-               --rm flareforecast/flare
+docker run --env FORECAST_CODE='forecast_code_here' \
+           --env FORECAST_CODE_BRANCH='forecast_code_branch_tag_here' \
+           --env FORECAST_CODE_COMMIT='forecast_code_commit_here' \
+           --env CONFIG_SET='config_set_here' \
+           --env FUNCTION='function_here' \
+           --env CONFIGURE_RUN='configure_run_file_here' \
+           --env AWS_DEFAULT_REGION='s3_default_region_here' \
+           --env AWS_S3_ENDPOINT='s3_endpoint_here' \
+           --env USE_HTTPS=FALSE \
+           --env AWS_ACCESS_KEY_ID='s3_access_key_here' \
+           --env AWS_SECRET_ACCESS_KEY='s3_secret_key_here' \
+           --entrypoint '/root/flare-run-container.sh' \
+           --rm flareforecast/flare
 ```
 
 ### Example
@@ -44,17 +46,17 @@ docker run -it --env FORECAST_CODE='forecast_code_here' \
 For authorized CIBR users to run FCRE forecasts:
 
 ```bash
-docker run -it --env FORECAST_CODE='https://github.com/FLARE-forecast/FCRE-forecast-code' \
-               --env FORECAST_CODE_BRANCH='latest' \
-               --env CONFIG_SET='default' \
-               --env FUNCTION='0' \
-               --env CONFIGURE_RUN='configure_run.yml' \
-               --env AWS_DEFAULT_REGION='s3' \
-               --env AWS_S3_ENDPOINT='flare-forecast.org' \
-               --env USE_HTTPS=FALSE \
-               --env AWS_ACCESS_KEY_ID='s3_access_key_here' \
-               --env AWS_SECRET_ACCESS_KEY='s3_secret_key_here' \
-               --rm flareforecast/flare
+docker run --env FORECAST_CODE='https://github.com/FLARE-forecast/FCRE-forecast-code' \
+           --env FORECAST_CODE_BRANCH='latest' \
+           --env CONFIG_SET='default' \
+           --env FUNCTION='0' \
+           --env CONFIGURE_RUN='configure_run.yml' \
+           --env AWS_DEFAULT_REGION='s3' \
+           --env AWS_S3_ENDPOINT='flare-forecast.org' \
+           --env USE_HTTPS=TRUE \
+           --env AWS_ACCESS_KEY_ID='s3_access_key_here' \
+           --env AWS_SECRET_ACCESS_KEY='s3_secret_key_here' \
+           --rm flareforecast/flare
 ```
 
 ### Run without S3 with Shared Volume
@@ -63,33 +65,50 @@ If `use_s3: FALSE` in `configure_run.yml`, the workflow stores the outputs local
 
 **NOTE:** For CIBR project, it still needs to access the S3 storage to read NOAA forecasts. So, S3 credentials are still needed for running the container.
 
-To access the container output, we can mount it as a shared volume on the host. For instance, it will be store in `~/forecast-code` in the following example:
+To access the container output, we can mount it as a shared volume on the host. For instance, it will be store in `/root/forecast-code` in the following example:
 
 ```bash
-docker run -it -v ~:/root/flare-containers \
-               --env FORECAST_CODE='forecast_code_here' \
-               --env FORECAST_CODE_BRANCH='forecast_code_branch_tag_here' \
-               --env CONFIG_SET='config_set_here' \
-               --env FUNCTION='function_here' \
-               --env CONFIGURE_RUN='configure_run_file_here' \
-               --env AWS_DEFAULT_REGION='s3_default_region_here' \
-               --env AWS_S3_ENDPOINT='s3_endpoint_here' \
-               --env USE_HTTPS=TRUE/FALSE \
-               --env AWS_ACCESS_KEY_ID='s3_access_key_here' \
-               --env AWS_SECRET_ACCESS_KEY='s3_secret_key_here' \
-               --rm flareforecast/flare
+docker run -volume ~:/root/flare-containers \
+           --env FORECAST_CODE='forecast_code_here' \
+           --env FORECAST_CODE_BRANCH='forecast_code_branch_tag_here' \
+           --env FORECAST_CODE_COMMIT='forecast_code_commit_here' \
+           --env CONFIG_SET='config_set_here' \
+           --env FUNCTION='function_here' \
+           --env CONFIGURE_RUN='configure_run_file_here' \
+           --env AWS_DEFAULT_REGION='s3_default_region_here' \
+           --env AWS_S3_ENDPOINT='s3_endpoint_here' \
+           --env USE_HTTPS=TRUE/FALSE \
+           --env AWS_ACCESS_KEY_ID='s3_access_key_here' \
+           --env AWS_SECRET_ACCESS_KEY='s3_secret_key_here' \
+           --rm flareforecast/flare
 ```
 
-### Environment Parameters
+### Environmental Variables
 
 #### FORECAST_CODE
 
 **Required**
 
-Specifies the forecast codebase Git repository. For instance, for CIBR project:
+Specifies the forecast codebase Git repository to be used. For instance, for CIBR project:
 
 `https://github.com/FLARE-forecast/FCRE-forecast-code`: For FCRE  
 `https://github.com/FLARE-forecast/SUNP-forecast-code`: For SUNP
+
+#### FORECAST_CODE_BRANCH
+
+**Optional**
+
+**Default Value:** Default branch of the repository (Usually `master` or `main`)
+
+Specifies the branch or tag of the `FORECAST_CODE` repository to be used.
+
+#### FORECAST_CODE_COMMIT
+
+**Optional**
+
+**Default Value:** Latest commit (Head) of the specified branch of the repository
+
+Specifies the commit of the `FORECAST_CODE` repository to be used.
 
 #### CONFIG_SET
 
@@ -185,9 +204,9 @@ aws.s3::get_bucket(bucket = 'drivers', region = Sys.getenv('AWS_DEFAULT_REGION')
 ## Build Docker Image
 
 ```bash
-git clone git@github.com:vahid-dan/FLARE-containers.git
-cd FLARE-containers/flare
-docker build -t flareforecast/flare .
+git clone git@github.com:FLARE-forecast/FLARE-containers.git
+cd FLARE-containers
+docker build -t flareforecast/flare -f flare/Dockerfile .
 ```
 
 **NOTE:** No need to build image if no custom image is required. The image is already built and uploaded to DockerHub [flareforecast/flare](https://hub.docker.com/repository/docker/flareforecast/flare).
