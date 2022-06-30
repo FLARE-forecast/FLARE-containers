@@ -9,6 +9,9 @@ gmail:
 email:
   subject: Daily SUNP Graphs
   body: "Hello from Jetstream 2!\n\nHere are today's graphs. Have a wonderful day!\n\nBests,\nSCC and CIBR Team"
+  attachments_graph:
+    prefix: https://s3.flare-forecast.org/analysis/sunp/sunp-
+    postfix: -sunp_V3.pdf
   attachments_github:
     - https://github.com/FLARE-forecast/SUNP-data/raw/sunp-graphs/sunpMetDataFigures_
     - https://github.com/FLARE-forecast/SUNP-data/raw/sunp-graphs/sunpWaterQualityDataFigures_
