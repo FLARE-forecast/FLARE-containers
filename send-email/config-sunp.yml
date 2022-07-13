@@ -1,20 +1,25 @@
 ## Container Settings
-container:
-  name: send-email
-  version: latest
 gmail:
-  username:
-  password-hash:
-  from: SCC
+  username: <sender_username>@gmail.com
+  password: <app_specific_password>
 email:
-  subject: Daily SUNP Graphs
-  body: "Hello from Jetstream 2!\n\nHere are today's graphs. Have a wonderful day!\n\nBests,\nSCC and CIBR Team"
-  attachments_graph:
-    prefix: https://s3.flare-forecast.org/analysis/sunp/sunp-
-    postfix: -sunp_V3.pdf
-  attachments_github:
-    - https://github.com/FLARE-forecast/SUNP-data/raw/sunp-graphs/sunpMetDataFigures_
-    - https://github.com/FLARE-forecast/SUNP-data/raw/sunp-graphs/sunpWaterQualityDataFigures_
+  sender: SCC
+  subject: Daily SUNP Forecast and Graphs
+  body: Hello from Jetstream 2!\n\nHere are today's forecast and graphs. Have a wonderful day!\n\nBests,\nSCC and CIBR Team
+  attachments_web:
+    - prefix: https://s3.flare-forecast.org/analysis/sunp/sunp-
+      infix: date -d '1 day ago' '+%Y-%m-%d'
+      suffix: -sunp_V3.pdf
+    - prefix: https://s3.flare-forecast.org/analysis/sunp/sunp_V3_35day_simple_plot_
+      infix: date -d '0 day ago' '+%Y-%m-%d'
+      suffix: .pdf
+    - prefix: https://github.com/FLARE-forecast/SUNP-data/raw/sunp-graphs/sunpMetDataFigures_
+      infix: date -d '0 day ago' '+%Y-%m-%d'
+      suffix: .pdf
+    - prefix: https://github.com/FLARE-forecast/SUNP-data/raw/sunp-graphs/sunpWaterQualityDataFigures_
+      infix: date -d '0 day ago' '+%Y-%m-%d'
+      suffix: .pdf
   attachments_local:
+    - prefix: /home/vd/2022-06-08/fcre-2022-06-07-fcre_js2_turnover.png
   recipients:
-    - <recipient>@gmail.com
+    - <recipient@mailserver>
