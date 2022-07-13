@@ -53,8 +53,8 @@ source "$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)/source.sh"
 ##############################################################################
 
 function __b3bp_cleanup_before_exit () {
-  rm -rf ${DATE} date_temp.txt attachments_list.txt attach_command.txt
-  info "Cleaning up. Done"
+  rm -rf ${DATE} attachments_list.txt attach_command.txt
+  info "Cleaning Up Completed"
 }
 trap __b3bp_cleanup_before_exit EXIT
 
@@ -106,24 +106,16 @@ fi
 
 ### Run-time and User-defined
 ##############################################################################
-
 # Set Variables
 DATE=$(date +%Y-%m-%d)
 USERNAME=$(yq e '.gmail.username' ${CONFIG_FILE})
-PASSWORD=$(yq e '.gmail.password-hash' ${CONFIG_FILE})
-SENDER=$(yq e '.gmail.from' ${CONFIG_FILE})
+PASSWORD=$(yq e '.gmail.password' ${CONFIG_FILE})
+SENDER=$(yq e '.email.sender' ${CONFIG_FILE})
 SUBJECT=$(yq e '.email.subject' ${CONFIG_FILE})
 CONTENT=$(yq e '.email.body' ${CONFIG_FILE})
 RECIPIENTS=$(yq e '.email.recipients' ${CONFIG_FILE})
-ATTACHMENTS_GRAPH=$(yq e '.email.attachments_graph' ${CONFIG_FILE})
-ATTACHMENTS_GRAPH_PREFIX=$(yq e '.email.attachments_graph.prefix' ${CONFIG_FILE})
-ATTACHMENTS_GRAPH_POSTFIX=$(yq e '.email.attachments_graph.postfix' ${CONFIG_FILE})
-ATTACHMENTS_GITHUB=$(yq e '.email.attachments_github[]' ${CONFIG_FILE})
-ATTACHMENTS_LOCAL=$(yq e '.email.attachments_local[]' ${CONFIG_FILE})
-ATTACHMENTS_LIST=${ATTACHMENTS_LIST:-""}
-
-__past=1
-__graph_url="${ATTACHMENTS_GRAPH_PREFIX}"$(date -d $__past" day ago" '+%Y-%m-%d')"${ATTACHMENTS_GRAPH_POSTFIX}"
+readarray ATTACHMENTS_WEB < <(yq e -o=j -I=0 '.email.attachments_web[]' ${CONFIG_FILE})
+readarray ATTACHMENTS_LOCAL < <(yq e -o=j -I=0 '.email.attachments_local[]' ${CONFIG_FILE})
 
 # Find if URL is accessible
 function validate_url() {
@@ -135,39 +127,38 @@ function validate_url() {
   return
 }
 
-# Add Attachments
 mkdir ${DATE}
 
-if [ ! -z "${ATTACHMENTS_GRAPH}" ]; then
-  if [[ $(validate_url ${__graph_url}) = "Valid URL" ]]; then
-    wget --no-check-certificate ${__graph_url} -P ${DATE}
+for attachment_web in "${ATTACHMENTS_WEB[@]}"; do
+  __prefix_web=$(echo "${attachment_web}" | yq e '.prefix // ""' -)
+  __infix_web=$(echo "${attachment_web}" | yq e '.infix // ""' -)
+  [[ ! -z ${__infix_web} ]] && __infix_output_web=$(eval ${__infix_web})
+  __suffix_web=$(echo "${attachment_web}" | yq e '.suffix // ""' -)
+  __url=${__prefix_web}${__infix_output_web:-}${__suffix_web}
+  if [[ $(validate_url ${__url}) = "Valid URL" ]]; then
+    wget --no-check-certificate ${__url} -P ${DATE}
   fi
-fi
+done
 
-if [ ! -z "${ATTACHMENTS_GITHUB}" ]; then
-  for __line in ${ATTACHMENTS_GITHUB}; do
-    if [[ $(validate_url "${__line}${DATE}.pdf") = "Valid URL" ]]; then
-      echo "${__line}${DATE}.pdf" >> date_temp.txt
-    fi
-  done
-  wget --no-check-certificate -i date_temp.txt -P ${DATE}
-fi
-
-if [ ! -z "${ATTACHMENTS_LOCAL}" ]; then
-  for __line in ${ATTACHMENTS_LOCAL}; do
-    cp ${__line} ./${DATE}
-  done
-fi
+for attachment_local in "${ATTACHMENTS_LOCAL[@]}"; do
+  __prefix_local=$(echo "${attachment_local}" | yq e '.prefix // ""' -)
+  __infix_local=$(echo "${attachment_local}" | yq e '.infix // ""' -)
+  [[ ! -z ${__infix_local} ]] && __infix_output_local=$(eval ${__infix_local})
+  __suffix_local=$(echo "${attachment_local}" | yq e '.suffix // ""' -)
+  __path=${__prefix_local}${__infix_output_local:-}${__suffix_local}
+  echo ${__path}
+  [[ -e ${__path} ]] && cp ${__path} ${DATE}
+done
 
 touch attach_command.txt
-ls ./${DATE} > attachments_list.txt
+ls ${DATE} > attachments_list.txt
 
 while read __line; do
-  echo "-a ./${DATE}/${__line}" >> attach_command.txt
+  echo "-a ${DATE}/${__line}" >> attach_command.txt
 done < attachments_list.txt
 
 while read __line; do
-  ATTACHMENTS_LIST="${ATTACHMENTS_LIST} ${__line}"
+  ATTACHMENTS_LIST="${ATTACHMENTS_LIST:-} ${__line}"
 done < attach_command.txt
 
 # Send Email
