@@ -1,4 +1,4 @@
-# FLARE Containers 22.01.3
+# FLARE Containers 22.1.4
 
 The purpose of this project is to run FLARE forecast with a docker container. It supports native S3 integration, and the output gets stored on S3 storage. If the use of S3 is enabled in the configurations, S3 access information is required.
 
