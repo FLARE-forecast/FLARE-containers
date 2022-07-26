@@ -111,7 +111,7 @@ if [[ ! -d 'flare-container/forecast-code' ]]; then # Check if the repo is alrea
   if [[ -z ${FORECAST_CODE_BRANCH:-} ]]; then # Check for the request for cloning a specific branch or tag
     git clone ${FORECAST_CODE_REPO} flare-container/forecast-code
   else 
-    git clone --branch ${FORECAST_CODE_BRANCH:-} ${FORECAST_CODE} flare-container/forecast-code
+    git clone --branch ${FORECAST_CODE_BRANCH:-} ${FORECAST_CODE_REPO} flare-container/forecast-code
   fi
 fi
 cd flare-container/forecast-code
