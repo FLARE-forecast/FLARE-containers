@@ -113,7 +113,7 @@ PASSWORD=$(yq e '.gmail.password' ${CONFIG_FILE})
 SENDER=$(yq e '.email.sender' ${CONFIG_FILE})
 SUBJECT=$(yq e '.email.subject' ${CONFIG_FILE})
 CONTENT=$(yq e '.email.body' ${CONFIG_FILE})
-RECIPIENTS=$(yq e '.email.recipients' ${CONFIG_FILE})
+RECIPIENTS=$(yq e '.email.recipients[]' ${CONFIG_FILE})
 readarray ATTACHMENTS_WEB < <(yq e -o=j -I=0 '.email.attachments_web[]' ${CONFIG_FILE})
 readarray ATTACHMENTS_LOCAL < <(yq e -o=j -I=0 '.email.attachments_local[]' ${CONFIG_FILE})
 
@@ -163,7 +163,7 @@ done < attach_command.txt
 
 # Send Email
 echo "${CONTENT}" | s-nail -:/ -v -s "${SUBJECT}" \
-${ATTACHMENTS_LIST} \
+${ATTACHMENTS_LIST:-} \
 -S smtp-use-starttls \
 -S ssl-verify=ignore \
 -S smtp-auth=login \

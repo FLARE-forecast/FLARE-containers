@@ -5,10 +5,10 @@ gmail:
 email:
   sender: SCC
   subject: Daily FCR Forecast and Graphs
-  body: "Hello from Jetstream 2!\n\nHere are today's forecast and graphs. Have a wonderful day!\n\nBests,\nSCC and CIBR Team"
+  body: "Hello from GitHub Actions!\n\nHere are today's forecast and graphs. Have a wonderful day!\n\nBests,\nSCC and CIBR Team"
   attachments_web:
     - prefix: https://s3.flare-forecast.org/analysis/fcre/fcre-
-      infix: date -d '1 day ago' '+%Y-%m-%d'
+      infix: date -d '0 day ago' '+%Y-%m-%d'
       suffix: -fcre_js2_turnover.png
     - prefix: https://github.com/FLARE-forecast/FCRE-data/raw/wvwa-graphs/BVRDataFigures_
       infix: date -d '0 day ago' '+%Y-%m-%d'
