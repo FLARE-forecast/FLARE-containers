@@ -21,6 +21,48 @@ docker run --env RUN_MODE='container' \
            --env USE_HTTPS='TRUE or FALSE' \
            --env AWS_ACCESS_KEY_ID='s3_access_key_here' \
            --env AWS_SECRET_ACCESS_KEY='s3_secret_key_here' \
+           --env S3_DRIVERS_ENDPOINT='s3_bucket_endpoint_here' \
+           --env S3_DRIVERS_DEFAULT_REGION='s3_bucket_default_region_here' \
+           --env S3_DRIVERS_USE_HTTPS='TRUE or FALSE' \
+           --env S3_DRIVERS_BUCKET='s3_bucket_bucket_here' \
+           --env S3_DRIVERS_ACCESS_KEY_ID='s3_bucket_access_key_id_here' \
+           --env S3_DRIVERS_SECRET_ACCESS_KEY='s3_bucket_secret_access_key_here' \
+           --env S3_ANALYSIS_ENDPOINT='s3_bucket_endpoint_here' \
+           --env S3_ANALYSIS_DEFAULT_REGION='s3_bucket_default_region_here' \
+           --env S3_ANALYSIS_USE_HTTPS='TRUE or FALSE' \
+           --env S3_ANALYSIS_BUCKET='s3_bucket_bucket_here' \
+           --env S3_ANALYSIS_ACCESS_KEY_ID='s3_bucket_access_key_id_here' \
+           --env S3_ANALYSIS_SECRET_ACCESS_KEY='s3_bucket_secret_access_key_here' \
+           --env S3_TARGETS_ENDPOINT='s3_bucket_endpoint_here' \
+           --env S3_TARGETS_DEFAULT_REGION='s3_bucket_default_region_here' \
+           --env S3_TARGETS_USE_HTTPS='TRUE or FALSE' \
+           --env S3_TARGETS_BUCKET='s3_bucket_bucket_here' \
+           --env S3_TARGETS_ACCESS_KEY_ID='s3_bucket_access_key_id_here' \
+           --env S3_TARGETS_SECRET_ACCESS_KEY='s3_bucket_secret_access_key_here' \
+           --env S3_FORECASTS_ENDPOINT='s3_bucket_endpoint_here' \
+           --env S3_FORECASTS_DEFAULT_REGION='s3_bucket_default_region_here' \
+           --env S3_FORECASTS_USE_HTTPS='TRUE or FALSE' \
+           --env S3_FORECASTS_BUCKET='s3_bucket_bucket_here' \
+           --env S3_FORECASTS_ACCESS_KEY_ID='s3_bucket_access_key_id_here' \
+           --env S3_FORECASTS_SECRET_ACCESS_KEY='s3_bucket_secret_access_key_here' \
+           --env S3_FORECASTS_CSV_ENDPOINT='s3_bucket_endpoint_here' \
+           --env S3_FORECASTS_CSV_DEFAULT_REGION='s3_bucket_default_region_here' \
+           --env S3_FORECASTS_CSV_USE_HTTPS='TRUE or FALSE' \
+           --env S3_FORECASTS_CSV_BUCKET='s3_bucket_bucket_here' \
+           --env S3_FORECASTS_CSV_ACCESS_KEY_ID='s3_bucket_access_key_id_here' \
+           --env S3_FORECASTS_CSV_SECRET_ACCESS_KEY='s3_bucket_secret_access_key_here' \  
+           --env S3_WARM_START_ENDPOINT='s3_bucket_endpoint_here' \
+           --env S3_WARM_START_DEFAULT_REGION='s3_bucket_default_region_here' \
+           --env S3_WARM_START_USE_HTTPS='TRUE or FALSE' \
+           --env S3_WARM_START_BUCKET='s3_bucket_bucket_here' \
+           --env S3_WARM_START_ACCESS_KEY_ID='s3_bucket_access_key_id_here' \
+           --env S3_WARM_START_SECRET_ACCESS_KEY='s3_bucket_secret_access_key_here' \  
+           --env S3_SCORES_ENDPOINT='s3_bucket_endpoint_here' \
+           --env S3_SCORES_DEFAULT_REGION='s3_bucket_default_region_here' \
+           --env S3_SCORES_USE_HTTPS='TRUE or FALSE' \
+           --env S3_SCORES_BUCKET='s3_bucket_bucket_here' \
+           --env S3_SCORES_ACCESS_KEY_ID='s3_bucket_access_key_id_here' \
+           --env S3_SCORES_SECRET_ACCESS_KEY='s3_bucket_secret_access_key_here' \   
            --entrypoint '/root/flare-run-container.sh' \
            --rm flareforecast/flare
 ```
@@ -37,7 +79,21 @@ docker run --env RUN_MODE='serverless' \
            --env CONFIGURE_RUN='configure_run_file_here' \
            --env AWS_DEFAULT_REGION='s3_default_region_here' \
            --env AWS_S3_ENDPOINT='s3_endpoint_here' \
-           --env USE_HTTPS=FALSE \
+           --env S3_DRIVERS_ENDPOINT='s3_drivers_endpoint_here' \
+           --env S3_DRIVERS_BUCKET='s3_drivers_bucket_here' \
+           --env S3_ANALYSIS_ENDPOINT='s3_analysis_endpoint_here' \
+           --env S3_ANALYSIS_BUCKET='s3_analysis_bucket_here' \
+           --env S3_TARGETS_ENDPOINT='s3_targets_endpoint_here' \
+           --env S3_TARGETS_BUCKET='s3_targets_bucket_here' \
+           --env S3_FORECASTS_ENDPOINT='s3_forecasts_endpoint_here' \
+           --env S3_FORECASTS_BUCKET='s3_forecasts_bucket_here' \
+           --env S3_FORECASTS_CSV_ENDPOINT='s3_forecasts_csv_endpoint_here' \
+           --env S3_FORECASTS_CSV_BUCKET='s3_forecasts_csv_bucket_here' \
+           --env S3_WARM_START_ENDPOINT='s3_warm_start_endpoint_here' \
+           --env S3_WARM_START_BUCKET='s3_warm_start_bucket_here' \
+           --env S3_SCORES_ENDPOINT='s3_scores_endpoint_here' \
+           --env S3_SCORES_BUCKET='s3_scores_bucket_here' \
+           --env USE_HTTPS='TRUE or FALSE' \
            --env AWS_ACCESS_KEY_ID='s3_access_key_here' \
            --env AWS_SECRET_ACCESS_KEY='s3_secret_key_here' \
            --rm flareforecast/flare
@@ -48,7 +104,8 @@ docker run --env RUN_MODE='serverless' \
 For authorized CIBR users to run FCRE forecasts in "container" mode:
 
 ```bash
-docker run --env FORECAST_CODE_REPO='https://github.com/FLARE-forecast/FCRE-forecast-code' \
+docker run --env RUN_MODE='container' \
+           --env FORECAST_CODE_REPO='https://github.com/FLARE-forecast/FCRE-forecast-code' \
            --env FORECAST_CODE_BRANCH='latest' \
            --env CONFIG_SET='default' \
            --env FUNCTION='0' \
@@ -72,6 +129,7 @@ To access the container output, we can mount it as a shared volume on the host. 
 
 ```bash
 docker run -volume ~:/root/flare-containers \
+           --env RUN_MODE='container' \
            --env FORECAST_CODE_REPO='forecast_code_repo_here' \
            --env FORECAST_CODE_BRANCH='forecast_code_branch_tag_here' \
            --env FORECAST_CODE_COMMIT='forecast_code_commit_here' \
