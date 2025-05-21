@@ -98,7 +98,19 @@ EXPECTED_COUNT=$(( ${#ATTACHMENTS_WEB[@]} + ${#ATTACHMENTS_LOCAL[@]} ))
 
 # Find if URL is accessible
 function validate_url() {
-  wget -S --spider --no-check-certificate "$1" 2>&1 | grep -q 'HTTP/1.1 200 OK'
+  local url="$1"
+  local output
+  output=$(wget -S --spider --no-check-certificate "$url" 2>&1)
+
+  if echo "$output" | grep -q 'HTTP/.* 200'; then
+    return 0
+  else
+    # Extract and print the last HTTP status code line
+    local status_line
+    status_line=$(echo "$output" | grep -E 'HTTP/.* [0-9]{3}' | tail -n1)
+    warn "URL check failed: ${url} — Status: ${status_line:-Unknown or no response}"
+    return 1
+  fi
 }
 
 # Retry block for downloading and verifying attachments
