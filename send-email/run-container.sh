@@ -139,7 +139,17 @@ while (( attempt <= MAX_RETRIES )); do
   for attachment_local in "${ATTACHMENTS_LOCAL[@]}"; do
     __prefix_local=$(echo "${attachment_local}" | yq e '.prefix // ""' -)
     __infix_local=$(echo "${attachment_local}" | yq e '.infix // ""' -)
-    [[ -n ${__infix_local} ]] && __infix_output_local=$(eval "${__infix_local}")
+    if [[ -n ${__infix_local} ]]; then
+      case "${__infix_local}" in
+        [a-zA-Z0-9_]*)
+          __infix_output_local="${__infix_local}"
+          ;;
+        *)
+          warn "Invalid infix value: ${__infix_local}"
+          __infix_output_local=""
+          ;;
+      esac
+    fi
     __suffix_local=$(echo "${attachment_local}" | yq e '.suffix // ""' -)
     __path="${__prefix_local}${__infix_output_local:-}${__suffix_local}"
 
