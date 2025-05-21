@@ -118,7 +118,14 @@ while (( attempt <= MAX_RETRIES )); do
   for attachment_web in "${ATTACHMENTS_WEB[@]}"; do
     __prefix_web=$(echo "${attachment_web}" | yq e '.prefix // ""' -)
     __infix_web=$(echo "${attachment_web}" | yq e '.infix // ""' -)
-    [[ -n ${__infix_web} ]] && __infix_output_web=$(eval "${__infix_web}")
+    if [[ -n ${__infix_web} ]]; then
+      if [[ "${__infix_web}" =~ ^[a-zA-Z0-9._/-]+$ ]]; then
+        __infix_output_web="${__infix_web}"
+      else
+        warn "Invalid infix value: ${__infix_web}"
+        continue
+      fi
+    fi
     __suffix_web=$(echo "${attachment_web}" | yq e '.suffix // ""' -)
     __url="${__prefix_web}${__infix_output_web:-}${__suffix_web}"
 
