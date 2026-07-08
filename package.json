@@ -24,6 +24,6 @@
     "express": "4.19.2",
     "serialize-error": "3.0.0",
     "redis": ">=3.1.1",
-    "uuid": "3.3.0"
+    "uuid": "14.0.0"
   }
 }
